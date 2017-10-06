@@ -1,7 +1,10 @@
 const User = require('../../db/user');
 const Song = require('../../db/song');
 
-// fetch all users from users collection and send to client
+//Table of Contents
+//FetchAllUsers       -       fetch all users from users collection and send to client
+//NewUserSignUp       -       Creates a new user in the database
+
 exports.FetchAllUsers = (req,res) => {
   User.find({})
   .then((users) => {

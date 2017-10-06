@@ -15,9 +15,22 @@ const searchAuthOptions = {
   json: true
 };
 
+const generateRandomString = (length) => {
+  let text = '';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
 
 
-//use Spotify API credentials to get search results without needing to use Oauth
+//Table of Contents
+//getTrackSearchResults     -       use Spotify API credentials to get search results without needing to use Oauth
+//handleHostLogin           -       used for checking state of browser for authentication
+//redirectAfterLogin        -       redirect host user to Spotify login page to obtain authorization code
+
 exports.getTrackSearchResults = (queryString) => {
   return new Promise((resolve, reject) => {
     request.post(searchAuthOptions, (error, response, body) => {
@@ -39,18 +52,6 @@ exports.getTrackSearchResults = (queryString) => {
   });
 };
 
-//used for checking state of browser for authentication
-const generateRandomString = (length) => {
-  let text = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
-//redirect host user to Spotify login page to obtain authorization code
 exports.handleHostLogin = (req, res) => {
   const state = generateRandomString(16);
   const scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state';
@@ -68,7 +69,6 @@ exports.handleHostLogin = (req, res) => {
 };
 
 
-//handle the redirect from Spotify after login and save the authorization code
 exports.redirectAfterLogin = (req, res) => {
   const code = req.query.code || null;
 
