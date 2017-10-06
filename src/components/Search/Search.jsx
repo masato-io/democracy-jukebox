@@ -4,16 +4,16 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 
-class Search extends React.Component{
+class Search extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       query: '',
       results: [],
       users: [],
       currentUser: '',
       usersSongs: []
-    }
+    };
     this.onSearch = this.onSearch.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onAdd = this.onAdd.bind(this);
@@ -25,23 +25,24 @@ class Search extends React.Component{
     this.getAllUsers();
   }
 
-  onSearch(query){
-    axios.get(`${window.server}/songs/search`, {
-      params: {
-        query: this.state.query
-      }
-    })
-    .then((response) => {
-      this.setState({ results: response.data.tracks.items});
-    })
-    .catch((err) => {
-      console.error.bind(err);
-    })
+  onSearch(query) {
+    axios
+      .get(`${window.server}/songs/search`, {
+        params: {
+          query: this.state.query
+        }
+      })
+      .then(response => {
+        this.setState({ results: response.data.tracks.items });
+      })
+      .catch(err => {
+        console.error.bind(err);
+      });
   }
 
   onChange(e) {
     let query = e.target.value;
-    this.setState({query:query});
+    this.setState({ query: query });
   }
 
   onAdd(song) {
@@ -50,39 +51,41 @@ class Search extends React.Component{
     newSong.image = song.album.images[1].url;
     newSong.link = song.external_urls.spotify;
     newSong.artist = song.artists[0].name;
-    if(this.state.currentUser === '') {
+    if (this.state.currentUser === '') {
       newSong.userName = 'anonymous';
     } else {
       newSong.userName = this.state.currentUser.name;
     }
-    axios.post(`${window.server}/songs`, newSong)
-    .then((response) => {
-      window.location.href = `${window.server}/hostLogin`;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    axios
+      .post(`${window.server}/songs`, newSong)
+      .then(response => {
+        window.location.href = `${window.server}/hostLogin`;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
-  handleUserChange (user){
+  handleUserChange(user) {
     this.setState({
-      currentUser: user,
+      currentUser: user
     });
-    if(user.addedSongs.length > 0) {
-      this.setState({usersSongs: user.addedSongs})
+    if (user.addedSongs.length > 0) {
+      this.setState({ usersSongs: user.addedSongs });
     }
-  };
+  }
 
   getAllUsers() {
-    axios.get(`${window.server}/users`)
-    .then((response) => {
-      this.setState({
-       users: response.data
+    axios
+      .get(`${window.server}/users`)
+      .then(response => {
+        this.setState({
+          users: response.data
+        });
       })
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -94,39 +97,43 @@ class Search extends React.Component{
       textAlign: 'center',
       width: '100%',
       height: '100%'
-    }
+    };
     return (
       <div style={styles}>
         <div style={styles.inside}>
-        <Login onChange={this.handleUserChange} users={this.state.users} currentUser={this.state.currentUser}/>
-        <TextField name="selectUser" onChange={this.onChange}/>
-        <br />
-        <br />
-        <Link to="/signup">Don't see your name? Sign up here!</Link>
-        <br />
-        <br />
-        <RaisedButton onClick={this.onSearch} label="Search"/>
-        <div>
-        {
-        this.state.results && this.state.results.map((result, i) => {
-          return (
-            <SearchEntry key={i} onAdd={this.onAdd} Result={result}/>
-          )
-        })
-      }
-      </div>
+          <Login
+            onChange={this.handleUserChange}
+            users={this.state.users}
+            currentUser={this.state.currentUser}
+          />
+          <TextField name="selectUser" onChange={this.onChange} />
+          <br />
+          <br />
+          <Link to="/signup">Don't see your name? Sign up here!</Link>
+          <br />
+          <br />
+          <RaisedButton onClick={this.onSearch} label="Search" />
+          <div>
+            {this.state.results &&
+              this.state.results.map((result, i) => {
+                return (
+                  <SearchEntry key={i} onAdd={this.onAdd} Result={result} />
+                );
+              })}
+          </div>
           <ul>
-          {
-            this.state.usersSongs && this.state.usersSongs.map((song, i) => {
-              return (
-                <li key={i}>{song.name}, {song.artist}</li>
-              )
-            })
-          }
+            {this.state.usersSongs &&
+              this.state.usersSongs.map((song, i) => {
+                return (
+                  <li key={i}>
+                    {song.name}, {song.artist}
+                  </li>
+                );
+              })}
           </ul>
         </div>
-     </div>
-    )
+      </div>
+    );
   }
 }
 

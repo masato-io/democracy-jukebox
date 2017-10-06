@@ -13,7 +13,7 @@ class Playlist extends React.Component {
       currentSong: '',
       deviceId: '',
       currentUser: 'annonymous'
-    }
+    };
     this.getAllSongs = this.getAllSongs.bind(this);
     this.upVote = this.upVote.bind(this);
     this.downVote = this.downVote.bind(this);
@@ -27,49 +27,53 @@ class Playlist extends React.Component {
   }
 
   getAllSongs() {
-    axios.get(`${window.server}/songs`)
-    .then((response) => {
-      this.setState({
-        songs: response.data
+    axios
+      .get(`${window.server}/songs`)
+      .then(response => {
+        this.setState({
+          songs: response.data
+        });
       })
-    })
-    .catch((err) => {
-      console.error.bind(err);
-    })
+      .catch(err => {
+        console.error.bind(err);
+      });
   }
 
   upVote(song) {
     song.vote = 1;
-    axios.put(`${window.server}/song`, song)
-    .then((response) => {
-      this.getAllSongs();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+    axios
+      .put(`${window.server}/song`, song)
+      .then(response => {
+        this.getAllSongs();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   downVote(song) {
     song.vote = -1;
-    axios.put(`${window.server}/song`, song)
-    .then((response) => {
-      this.getAllSongs();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+    axios
+      .put(`${window.server}/song`, song)
+      .then(response => {
+        this.getAllSongs();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   getSpotifyToken() {
     const getHashParams = () => {
-    let hashParams = {};
-    let e, r = /([^&;=]+)=?([^&;]*)/g;
-    let q = window.location.hash.substring(1);
-    while ( e = r.exec(q)) {
-      hashParams[e[1]] = decodeURIComponent(e[2]);
-    }
+      let hashParams = {};
+      let e,
+        r = /([^&;=]+)=?([^&;]*)/g;
+      let q = window.location.hash.substring(1);
+      while ((e = r.exec(q))) {
+        hashParams[e[1]] = decodeURIComponent(e[2]);
+      }
       return hashParams;
-    }
+    };
 
     const params = getHashParams();
     const access_token = params.access_token;
@@ -81,16 +85,18 @@ class Playlist extends React.Component {
 
   //get the active device for the host user who is signed in to Spotify
   getDeviceId() {
-    spotifyApi.getMyDevices()
-      .then((data) => {
+    spotifyApi.getMyDevices().then(
+      data => {
         if (data.devices) {
-          if (data.devices.length>0){
-            this.setState({deviceId : data.devices[0].id})
+          if (data.devices.length > 0) {
+            this.setState({ deviceId: data.devices[0].id });
           }
         }
-      }, (err) =>{
+      },
+      err => {
         console.error(err);
-      });
+      }
+    );
   }
 
   playCurrentSong(deviceId, trackId) {
@@ -98,24 +104,25 @@ class Playlist extends React.Component {
       device_id: deviceId,
       uris: ['spotify:track:' + trackId]
     });
-  };
+  }
 
-  handlePlayButtonClick () {
+  handlePlayButtonClick() {
     const trackId = this.state.songs[0].link.split('track/')[1];
     const songId = this.state.songs[0]._id;
-    this.setState({currentSong: this.state.songs[0]});
+    this.setState({ currentSong: this.state.songs[0] });
     this.playCurrentSong(this.state.deviceId, trackId);
     this.removeSong(songId);
   }
 
   removeSong(songId) {
-    axios.delete(`${window.server}/song`, {params: {id: songId}})
-    .then((response) => {
-      this.getAllSongs();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+    axios
+      .delete(`${window.server}/song`, { params: { id: songId } })
+      .then(response => {
+        this.getAllSongs();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -125,40 +132,54 @@ class Playlist extends React.Component {
       verticalAlign: 'top',
       textAlign: 'center',
       position: 'fixed'
-    }
+    };
     const playListStyle = {
       display: 'inline-block',
-      width:'50%',
+      width: '50%',
       float: 'right'
-    }
+    };
     const playButtonStyle = {
       width: '100%',
       margin: '16px',
       textAlign: 'center'
-    }
-      return (
-        <div>
-          {this.state.deviceId &&
+    };
+    return (
+      <div>
+        {this.state.deviceId && (
           <div style={playButtonStyle}>
-            <FlatButton onClick={this.handlePlayButtonClick} label="Play top song" primary={true} />
+            <FlatButton
+              onClick={this.handlePlayButtonClick}
+              label="Play top song"
+              primary={true}
+            />
           </div>
-          }
-          <div>
-            <div style={playerStyle}>
-            {this.state.currentSong && <Player trackId={this.state.currentSong.link.split('track/')[1]}/>}
-            </div>
-            <div style={playListStyle} >
-          {
-            this.state.songs && this.state.songs.map((song, i) => {
-              return (
-                <PlaylistEntry index={i+1} downVote={this.downVote} handlePlay={this.handlePlayButtonClick} upVote={this.upVote} Song={song} key={i} />
-              )
-            })
-          }
-            </div>
+        )}
+        <div>
+          <div style={playerStyle}>
+            {this.state.currentSong && (
+              <Player
+                trackId={this.state.currentSong.link.split('track/')[1]}
+              />
+            )}
+          </div>
+          <div style={playListStyle}>
+            {this.state.songs &&
+              this.state.songs.map((song, i) => {
+                return (
+                  <PlaylistEntry
+                    index={i + 1}
+                    downVote={this.downVote}
+                    handlePlay={this.handlePlayButtonClick}
+                    upVote={this.upVote}
+                    Song={song}
+                    key={i}
+                  />
+                );
+              })}
           </div>
         </div>
-      )
+      </div>
+    );
   }
 }
 
