@@ -1,9 +1,15 @@
+// react & redux
 import React from 'react';
+import { connect } from 'react-redux';
+import { onSearch } from '../../actions/searchAction';
+import { bindActionCreators } from 'redux';
+// api
 import axios from 'axios';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
-import Login from '../Accounts/Login.jsx';
+import Login from '../../components/Accounts/Login.jsx';
+import SearchEntry from '../../components/Search/SearchEntry.jsx';
 
 class Search extends React.Component {
   constructor(props) {
@@ -113,10 +119,13 @@ class Search extends React.Component {
           <Link to="/signup">Don't see your name? Sign up here!</Link>
           <br />
           <br />
-          <RaisedButton onClick={this.onSearch} label="Search" />
+          <RaisedButton
+            onClick={this.props.dispatch(onSearch(this.state.query).bind(this))}
+            label="Search"
+          />
           <div>
-            {this.state.results &&
-              this.state.results.map((result, i) => {
+            {this.props.results &&
+              this.props.results.map((result, i) => {
                 return (
                   <SearchEntry key={i} onAdd={this.onAdd} Result={result} />
                 );
@@ -138,4 +147,10 @@ class Search extends React.Component {
   }
 }
 
-export default Search;
+const mapStateToProps = state => {
+  return {
+    results: state.searchReducer.results
+  };
+};
+
+export default connect(mapStateToProps, null)(Search);

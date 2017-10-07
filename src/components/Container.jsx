@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Playlist from '../containers/Playlist/Playlist.jsx';
 import Signup from '../components/Accounts/Signup.jsx';
 import Login from '../components/Accounts/Login.jsx';
-import Search from '../components/Search/Search.jsx';
+import Search from '../containers/Search/Search.jsx';
 
 class Container extends React.Component {
   constructor(props) {
