@@ -1,21 +1,27 @@
+// react & redux
 import React from 'react';
+import { connect } from 'react-redux';
+import { getSongs } from '../../actions/index';
+import { bindActionCreators } from 'redux';
+// ajax
 import axios from 'axios';
-import SpotifyWebApi from 'spotify-web-api-js';
-import FlatButton from 'material-ui/FlatButton';
+// components
 import PlaylistEntry from '../../components/Playlist/PlaylistEntry.jsx';
 import Player from '../../components/Playlist/Player.jsx';
+// spotify
+import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
+// material-ui
+import FlatButton from 'material-ui/FlatButton';
 
 class Playlist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      songs: [],
       currentSong: '',
       deviceId: '',
       currentUser: 'annonymous'
     };
-    this.getAllSongs = this.getAllSongs.bind(this);
     this.upVote = this.upVote.bind(this);
     this.downVote = this.downVote.bind(this);
     this.handlePlayButtonClick = this.handlePlayButtonClick.bind(this);
@@ -24,20 +30,7 @@ class Playlist extends React.Component {
   componentDidMount() {
     this.getSpotifyToken();
     this.getDeviceId();
-    this.getAllSongs();
-  }
-
-  getAllSongs() {
-    axios
-      .get(`${window.server}/songs`)
-      .then(response => {
-        this.setState({
-          songs: response.data
-        });
-      })
-      .catch(err => {
-        console.error.bind(err);
-      });
+    this.props.getSongs();
   }
 
   upVote(song) {
@@ -45,7 +38,7 @@ class Playlist extends React.Component {
     axios
       .put(`${window.server}/song`, song)
       .then(response => {
-        this.getAllSongs();
+        this.props.getSongs();
       })
       .catch(err => {
         console.log(err);
@@ -57,7 +50,7 @@ class Playlist extends React.Component {
     axios
       .put(`${window.server}/song`, song)
       .then(response => {
-        this.getAllSongs();
+        this.props.getSongs();
       })
       .catch(err => {
         console.log(err);
@@ -108,9 +101,9 @@ class Playlist extends React.Component {
   }
 
   handlePlayButtonClick() {
-    const trackId = this.state.songs[0].link.split('track/')[1];
-    const songId = this.state.songs[0]._id;
-    this.setState({ currentSong: this.state.songs[0] });
+    const trackId = this.props.songs[0].link.split('track/')[1];
+    const songId = this.props.songs[0]._id;
+    this.setState({ currentSong: this.props.songs[0] });
     this.playCurrentSong(this.state.deviceId, trackId);
     this.removeSong(songId);
   }
@@ -119,7 +112,7 @@ class Playlist extends React.Component {
     axios
       .delete(`${window.server}/song`, { params: { id: songId } })
       .then(response => {
-        this.getAllSongs();
+        this.props.getSongs();
       })
       .catch(err => {
         console.log(err);
@@ -144,6 +137,7 @@ class Playlist extends React.Component {
       margin: '16px',
       textAlign: 'center'
     };
+
     return (
       <div>
         {this.state.deviceId && (
@@ -164,8 +158,8 @@ class Playlist extends React.Component {
             )}
           </div>
           <div style={playListStyle}>
-            {this.state.songs &&
-              this.state.songs.map((song, i) => {
+            {this.props.songs &&
+              this.props.songs.map((song, i) => {
                 return (
                   <PlaylistEntry
                     index={i + 1}
@@ -184,4 +178,14 @@ class Playlist extends React.Component {
   }
 }
 
-export default Playlist;
+function mapStateToProps(state) {
+  return {
+    songs: state.songs
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ getSongs: getSongs }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
