@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import SpotifyWebApi from 'spotify-web-api-js';
 import FlatButton from 'material-ui/FlatButton';
-
+import PlaylistEntry from '../../components/Playlist/PlaylistEntry.jsx';
+import Player from '../../components/Playlist/Player.jsx';
 const spotifyApi = new SpotifyWebApi();
 
 class Playlist extends React.Component {
@@ -184,4 +185,3 @@ class Playlist extends React.Component {
 }
 
 export default Playlist;
-window.Playlist = Playlist;

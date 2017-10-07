@@ -17,4 +17,3 @@ const Player = props => {
 };
 
 export default Player;
-window.Player = Player;

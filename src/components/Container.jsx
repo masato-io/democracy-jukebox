@@ -1,6 +1,10 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Playlist from '../containers/Playlist/Playlist.jsx';
+import Signup from '../components/Accounts/Signup.jsx';
+import Login from '../components/Accounts/Login.jsx';
+import Search from '../components/Search/Search.jsx';
 
 class Container extends React.Component {
   constructor(props) {
@@ -22,5 +26,3 @@ class Container extends React.Component {
   }
 }
 export default Container;
-window.Container = Container;
-// TODO: Review how react router should be implemented with a node express backend

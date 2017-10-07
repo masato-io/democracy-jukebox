@@ -138,4 +138,3 @@ class Search extends React.Component {
 }
 
 export default Search;
-window.Search = Search;

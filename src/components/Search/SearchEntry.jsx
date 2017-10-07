@@ -46,4 +46,3 @@ const SearchEntry = props => {
 };
 
 export default SearchEntry;
-window.SearchEntry = SearchEntry;

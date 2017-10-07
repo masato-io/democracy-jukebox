@@ -23,4 +23,3 @@ const Banner = () => {
 };
 
 export default Banner;
-window.Banner = Banner;
