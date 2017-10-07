@@ -6,5 +6,5 @@ import SearchReducer from './SearchReducer';
 export default combineReducers({
   AccountsReducer,
   songsReducer: PlaylistReducer,
-  SearchReducer
+  searchReducer: SearchReducer
 });

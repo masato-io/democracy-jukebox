@@ -4,7 +4,6 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import Login from '../Accounts/Login.jsx';
-import SearchEntry from './SearchEntry.jsx';
 
 class Search extends React.Component {
   constructor(props) {
