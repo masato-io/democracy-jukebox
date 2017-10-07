@@ -1,7 +1,7 @@
 // react & redux
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSongs } from '../../actions/index';
+import { getSongs, handlePlayButtonClick } from '../../actions/playlistActions';
 import { bindActionCreators } from 'redux';
 // ajax
 import axios from 'axios';
@@ -178,14 +178,19 @@ class Playlist extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
-    songs: state.songs
+    songs: state.songsReducer.songs
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getSongs: getSongs }, dispatch);
-}
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      getSongs: getSongs
+    },
+    dispatch
+  );
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
