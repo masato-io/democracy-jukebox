@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -9,7 +9,7 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       username: ''
-    }
+    };
     this.handleChange = this.handleChange.bind(this);
     this.signUp = this.signUp.bind(this);
   }
@@ -24,23 +24,26 @@ class Signup extends React.Component {
   signUp(e) {
     let newUser = {};
     newUser.username = this.state.username;
-    axios.post(`${window.server}/signup`, newUser)
-    .then((response) => {
-      this.props.history.push('/')
-    })
+    axios.post(`${window.server}/signup`, newUser).then(response => {
+      this.props.history.push('/');
+    });
   }
 
   render() {
     return (
       <div>
-        <TextField onChange={this.handleChange} name="username" value={this.state.username} hintText="Username"/>
+        <TextField
+          onChange={this.handleChange}
+          name="username"
+          value={this.state.username}
+          hintText="Username"
+        />
         <br />
         <br />
         <FlatButton onClick={this.signUp} label="Sign Up" />
-    </div>
-    )
+      </div>
+    );
   }
 }
 
 export default Signup;
-window.Signup = Signup;

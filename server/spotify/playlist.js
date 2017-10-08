@@ -21,64 +21,69 @@ exports.AddSongToCollections = (req, res) => {
     artist: req.body.artist
   });
 
-  User.findOne({name: req.body.userName})
-  .then((user) => {
-    if (user) {
-      user.addedSongs.push(newSong);
-      user.save();
-      return newSong.save();
-    }
-  })
-  .then(() => {
-    res.sendStatus(201);
-  })
-  .catch((err) => {
-    res.status(400).send(err);
-  });
+  User.findOne({ name: req.body.userName })
+    .then(user => {
+      if (user) {
+        user.addedSongs.push(newSong);
+        user.save();
+        return newSong.save();
+      }
+    })
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
 };
 
 exports.DeleteSong = (req, res) => {
   const songId = req.query.id;
-  Song.remove({'_id': songId}, (err) => {
-    if (err) { console.log(err); }
+  Song.remove({ _id: songId }, err => {
+    if (err) {
+      console.log(err);
+    }
   });
   res.sendStatus(201);
-}
+};
 
 exports.FetchSongs = (req, res) => {
-  Song.find({}).sort({netVoteCount: 'descending'}).limit(50)
-  .then((songs) => {
-    res.json(songs);
-  })
-  .catch((err) => {
-    res.status(400).send(err);
-  });
+  Song.find({})
+    .sort({ netVoteCount: 'descending' })
+    .limit(50)
+    .then(songs => {
+      res.json(songs);
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
 };
 
 exports.RegisterVoteOnSong = (req, res) => {
-  Song.findOne({name: req.body.name})
-  .then(function(song) {
-    if (song) {
-      if(req.body.vote > 0) {
-        song.upVoteCount++;
-      } else {
-        song.downVoteCount++;
+  Song.findOne({ name: req.body.name })
+    .then(function(song) {
+      if (song) {
+        if (req.body.vote > 0) {
+          song.upVoteCount++;
+        } else {
+          song.downVoteCount++;
+        }
+        song.save();
+        res.sendStatus(201);
       }
-      song.save();
-      res.sendStatus(201);
-    }
-  })
-  .catch((err) => {
-    res.status(400).send(err);
-  });
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
 };
 
 exports.SearchSongResults = (req, res) => {
-  spotifyHelpers.getTrackSearchResults(req.query.query)
-  .then((results) => {
-    res.json(results);
-  })
-  .catch((err) => {
-    res.status(400).send(err);
-  });
+  spotifyHelpers
+    .getTrackSearchResults(req.query.query)
+    .then(results => {
+      res.json(results);
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
 };

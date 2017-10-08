@@ -1,11 +1,10 @@
-import { combineReducers } from 'redux'
-
-import Accounts from './AccountsReducer'
-import Playlist from './PlaylistReducer'
-import Search from './SearchReducer'
+import { combineReducers } from 'redux';
+import AccountsReducer from './AccountsReducer';
+import PlaylistReducer from './PlaylistReducer';
+import SearchReducer from './SearchReducer';
 
 export default combineReducers({
-  Accounts,
-  Playlist,
-  Search
-})
+  AccountsReducer,
+  songsReducer: PlaylistReducer,
+  searchReducer: SearchReducer
+});
