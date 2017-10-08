@@ -1,7 +1,7 @@
 // react & redux
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSongs, handlePlayButtonClick } from '../../actions/playlistActions';
+import { getSongs } from '../../actions/playlistActions';
 import { bindActionCreators } from 'redux';
 // ajax
 import axios from 'axios';
@@ -24,13 +24,12 @@ class Playlist extends React.Component {
     };
     this.upVote = this.upVote.bind(this);
     this.downVote = this.downVote.bind(this);
-    this.handlePlayButtonClick = this.handlePlayButtonClick.bind(this);
   }
 
   componentDidMount() {
     this.getSpotifyToken();
     this.getDeviceId();
-    this.props.getSongs();
+    this.props.dispatch(getSongs().bind(this));
   }
 
   upVote(song) {
@@ -38,7 +37,7 @@ class Playlist extends React.Component {
     axios
       .put(`${window.server}/song`, song)
       .then(response => {
-        this.props.getSongs();
+        this.props.dispatch(getSongs().bind(this));
       })
       .catch(err => {
         console.log(err);
@@ -50,7 +49,7 @@ class Playlist extends React.Component {
     axios
       .put(`${window.server}/song`, song)
       .then(response => {
-        this.props.getSongs();
+        this.props.dispatch(getSongs().bind(this));
       })
       .catch(err => {
         console.log(err);
@@ -100,19 +99,11 @@ class Playlist extends React.Component {
     });
   }
 
-  handlePlayButtonClick() {
-    const trackId = this.props.songs[0].link.split('track/')[1];
-    const songId = this.props.songs[0]._id;
-    this.setState({ currentSong: this.props.songs[0] });
-    this.playCurrentSong(this.state.deviceId, trackId);
-    this.removeSong(songId);
-  }
-
   removeSong(songId) {
     axios
       .delete(`${window.server}/song`, { params: { id: songId } })
       .then(response => {
-        this.props.getSongs();
+        this.props.dispatch(getSongs().bind(this));
       })
       .catch(err => {
         console.log(err);
@@ -140,15 +131,7 @@ class Playlist extends React.Component {
 
     return (
       <div>
-        {this.state.deviceId && (
-          <div style={playButtonStyle}>
-            <FlatButton
-              onClick={this.handlePlayButtonClick}
-              label="Play top song"
-              primary={true}
-            />
-          </div>
-        )}
+        {/* PLAYER */}
         <div>
           <div style={playerStyle}>
             {this.state.currentSong && (
@@ -157,6 +140,8 @@ class Playlist extends React.Component {
               />
             )}
           </div>
+
+          {/* PLAY LIST */}
           <div style={playListStyle}>
             {this.props.songs &&
               this.props.songs.map((song, i) => {
@@ -184,13 +169,13 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      getSongs: getSongs
-    },
-    dispatch
-  );
-};
+// const mapDispatchToProps = dispatch => {
+//   return bindActionCreators(
+//     {
+//       getSongs: getSongs
+//     },
+//     dispatch
+//   );
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
+export default connect(mapStateToProps, null)(Playlist);
