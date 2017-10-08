@@ -50,7 +50,7 @@ exports.DeleteSong = (req, res) => {
 exports.FetchSongs = (req, res) => {
   Song.find({})
     .sort({ netVoteCount: 'descending' })
-    .limit(50)
+    .limit(500)
     .then(songs => {
       res.json(songs);
     })
