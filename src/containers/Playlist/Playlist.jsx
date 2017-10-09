@@ -13,6 +13,8 @@ import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
 // material-ui
 import FlatButton from 'material-ui/FlatButton';
+// styled-components
+import styled from 'styled-components';
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -111,13 +113,8 @@ class Playlist extends React.Component {
   }
 
   render() {
-    const playerStyle = {
-      display: 'inline-block',
-      width: '50%',
-      verticalAlign: 'top',
-      textAlign: 'center',
-      position: 'fixed'
-    };
+    // baseStyles();
+
     const playListStyle = {
       display: 'inline-block',
       width: '50%',
@@ -129,36 +126,54 @@ class Playlist extends React.Component {
       textAlign: 'center'
     };
 
-    return (
-      <div>
-        {/* PLAYER */}
-        <div>
-          <div style={playerStyle}>
-            {this.state.currentSong && (
-              <Player
-                trackId={this.state.currentSong.link.split('track/')[1]}
-              />
-            )}
-          </div>
+    // define custom css
+    const PlaylistComponentWrap = styled.div`
+      background: #1c2137;
+      height: calc(100vh - 64px);
+      width: 100%;
+      overflow-y: scroll;
+    `;
 
-          {/* PLAY LIST */}
-          <div style={playListStyle}>
-            {this.props.songs &&
-              this.props.songs.map((song, i) => {
-                return (
-                  <PlaylistEntry
-                    index={i + 1}
-                    downVote={this.downVote}
-                    handlePlay={this.handlePlayButtonClick}
-                    upVote={this.upVote}
-                    Song={song}
-                    key={i}
-                  />
-                );
-              })}
-          </div>
+    const PlayerWrap = styled.div`
+      background: #1c2137;
+      height: 80px;
+      width: 900px;
+      position: fixed;
+      z-index: 100;
+      bottom: 0;
+      left: calc(-50vw + 50%);
+      right: calc(-50vw + 50%);
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5);
+    `;
+
+    return (
+      <PlaylistComponentWrap>
+        {/* PLAYER */}
+        <PlayerWrap>
+          {this.state.currentSong && (
+            <Player trackId={this.state.currentSong.link.split('track/')[1]} />
+          )}
+        </PlayerWrap>
+
+        {/* PLAYLIST */}
+        <div style={playListStyle}>
+          {this.props.songs &&
+            this.props.songs.map((song, i) => {
+              return (
+                <PlaylistEntry
+                  index={i + 1}
+                  downVote={this.downVote}
+                  handlePlay={this.handlePlayButtonClick}
+                  upVote={this.upVote}
+                  Song={song}
+                  key={i}
+                />
+              );
+            })}
         </div>
-      </div>
+      </PlaylistComponentWrap>
     );
   }
 }
