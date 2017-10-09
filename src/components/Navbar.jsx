@@ -27,7 +27,8 @@ class Navbar extends React.Component {
 
   render() {
     const navbarStyle = {
-      zIndex: '1'
+      zIndex: '1',
+      backgroundColor: '#181C2F'
     };
     return (
       <div>

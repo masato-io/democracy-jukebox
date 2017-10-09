@@ -7,8 +7,8 @@ const Player = props => {
         src={
           'https://open.spotify.com/embed?uri=spotify:track:' + props.trackId
         }
-        width="300"
-        height="380"
+        width="100%"
+        height="250"
         frameBorder="0"
         allowTransparency="true"
       />
