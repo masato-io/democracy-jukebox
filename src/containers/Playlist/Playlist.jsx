@@ -1,7 +1,7 @@
 // react & redux
 import React from 'react';
 import { connect } from 'react-redux';
-import { getSongs, handlePlayButtonClick } from '../../actions/playlistActions';
+import { getSongs } from '../../actions/playlistActions';
 import { bindActionCreators } from 'redux';
 // ajax
 import axios from 'axios';
@@ -13,6 +13,8 @@ import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
 // material-ui
 import FlatButton from 'material-ui/FlatButton';
+// styled-components
+import styled from 'styled-components';
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -24,13 +26,12 @@ class Playlist extends React.Component {
     };
     this.upVote = this.upVote.bind(this);
     this.downVote = this.downVote.bind(this);
-    this.handlePlayButtonClick = this.handlePlayButtonClick.bind(this);
   }
 
   componentDidMount() {
     this.getSpotifyToken();
     this.getDeviceId();
-    this.props.getSongs();
+    this.props.dispatch(getSongs().bind(this));
   }
 
   upVote(song) {
@@ -38,7 +39,7 @@ class Playlist extends React.Component {
     axios
       .put(`${window.server}/song`, song)
       .then(response => {
-        this.props.getSongs();
+        this.props.dispatch(getSongs().bind(this));
       })
       .catch(err => {
         console.log(err);
@@ -50,7 +51,7 @@ class Playlist extends React.Component {
     axios
       .put(`${window.server}/song`, song)
       .then(response => {
-        this.props.getSongs();
+        this.props.dispatch(getSongs().bind(this));
       })
       .catch(err => {
         console.log(err);
@@ -100,19 +101,11 @@ class Playlist extends React.Component {
     });
   }
 
-  handlePlayButtonClick() {
-    const trackId = this.props.songs[0].link.split('track/')[1];
-    const songId = this.props.songs[0]._id;
-    this.setState({ currentSong: this.props.songs[0] });
-    this.playCurrentSong(this.state.deviceId, trackId);
-    this.removeSong(songId);
-  }
-
   removeSong(songId) {
     axios
       .delete(`${window.server}/song`, { params: { id: songId } })
       .then(response => {
-        this.props.getSongs();
+        this.props.dispatch(getSongs().bind(this));
       })
       .catch(err => {
         console.log(err);
@@ -120,13 +113,8 @@ class Playlist extends React.Component {
   }
 
   render() {
-    const playerStyle = {
-      display: 'inline-block',
-      width: '50%',
-      verticalAlign: 'top',
-      textAlign: 'center',
-      position: 'fixed'
-    };
+    // baseStyles();
+
     const playListStyle = {
       display: 'inline-block',
       width: '50%',
@@ -138,42 +126,54 @@ class Playlist extends React.Component {
       textAlign: 'center'
     };
 
+    // define custom css
+    const PlaylistComponentWrap = styled.div`
+      background: #1c2137;
+      height: 100vh;
+      width: 100%;
+      overflow-y: scroll;
+    `;
+
+    const PlayerWrap = styled.div`
+      background: #1c2137;
+      height: 80px;
+      width: 900px;
+      position: fixed;
+      z-index: 100;
+      bottom: 0;
+      left: calc(-50vw + 50%);
+      right: calc(-50vw + 50%);
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5);
+    `;
+
     return (
-      <div>
-        {this.state.deviceId && (
-          <div style={playButtonStyle}>
-            <FlatButton
-              onClick={this.handlePlayButtonClick}
-              label="Play top song"
-              primary={true}
-            />
-          </div>
-        )}
-        <div>
-          <div style={playerStyle}>
-            {this.state.currentSong && (
-              <Player
-                trackId={this.state.currentSong.link.split('track/')[1]}
-              />
-            )}
-          </div>
-          <div style={playListStyle}>
-            {this.props.songs &&
-              this.props.songs.map((song, i) => {
-                return (
-                  <PlaylistEntry
-                    index={i + 1}
-                    downVote={this.downVote}
-                    handlePlay={this.handlePlayButtonClick}
-                    upVote={this.upVote}
-                    Song={song}
-                    key={i}
-                  />
-                );
-              })}
-          </div>
+      <PlaylistComponentWrap>
+        {/* PLAYER */}
+        <PlayerWrap>
+          {this.state.currentSong && (
+            <Player trackId={this.state.currentSong.link.split('track/')[1]} />
+          )}
+        </PlayerWrap>
+
+        {/* PLAYLIST */}
+        <div style={playListStyle}>
+          {this.props.songs &&
+            this.props.songs.map((song, i) => {
+              return (
+                <PlaylistEntry
+                  index={i + 1}
+                  downVote={this.downVote}
+                  handlePlay={this.handlePlayButtonClick}
+                  upVote={this.upVote}
+                  Song={song}
+                  key={i}
+                />
+              );
+            })}
         </div>
-      </div>
+      </PlaylistComponentWrap>
     );
   }
 }
@@ -184,13 +184,13 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      getSongs: getSongs
-    },
-    dispatch
-  );
-};
+// const mapDispatchToProps = dispatch => {
+//   return bindActionCreators(
+//     {
+//       getSongs: getSongs
+//     },
+//     dispatch
+//   );
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
+export default connect(mapStateToProps, null)(Playlist);

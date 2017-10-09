@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export function onSearch(query) {
   return function(dispatch) {
+    // console.log('this', this.state);
     axios
       .get(`${window.server}/songs/search`, {
         params: {
