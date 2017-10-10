@@ -64,9 +64,21 @@ class Signup extends React.Component {
             value={this.state.username}
             hintText="Username"
           >
-            <MenuItem value='Richie' primaryText='Richie' />
+            <MenuItem value='Fonzie' primaryText='Fonzie' />
             <MenuItem value='Potsie' primaryText='Potsie' />
+            <MenuItem value='Richie' primaryText='Richie' />
             <MenuItem value='Joanie' primaryText='Joanie' />
+            <MenuItem value='Mrs. C' primaryText='Mrs. C' />
+            <MenuItem value='Mr. C' primaryText='Mr. C' />
+            <MenuItem value='Ralph' primaryText='Ralph' />
+            <MenuItem value='Chachi' primaryText='Chachi' />
+            <MenuItem value='Al' primaryText='Al' />
+            <MenuItem value='Lori Beth' primaryText='Lori Beth' />
+            <MenuItem value='Laverne' primaryText='Laverne' />
+            <MenuItem value='Arnold' primaryText='Arnold' />
+            <MenuItem value='Jenny' primaryText='Jenny' />
+            <MenuItem value='Roger' primaryText='Roger' />
+            <MenuItem value='Wolfman' primaryText='Wolfman' />
           </SelectField>
           <br />
 
