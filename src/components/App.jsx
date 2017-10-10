@@ -32,7 +32,7 @@ class App extends React.Component {
     `;
 
     const AppBackground = styled.div`
-      background: #252d47;
+      background: #ffffff;
       height: 100%;
       width: 100%;
       display: flex;
@@ -40,7 +40,7 @@ class App extends React.Component {
       overflow: hidden;
     `;
     const AppWrap = styled.div`
-      background: #1c2137;
+      background: #ffffff;
       height: 100%;
       width: 900px;
       display: flex;
