@@ -19,7 +19,7 @@ class Signup extends React.Component {
     this.signUp = this.signUp.bind(this);
   }
 
-  handleChangeSelect(event, index, value) {
+  handleChangeSelect(event, index, value) => this.setState({username});
     let newState = {};
     newState[event.target.name] = event.target.value;
     this.setState(newState);
@@ -55,18 +55,13 @@ class Signup extends React.Component {
           value={this.state.username}
           hintText="Username"
         >
-          <MenuItem value={1} primaryText='Richie' />
-          <MenuItem value={2} primaryText='Potsie' />
-          <MenuItem value={3} primaryText='Joanie' />
+          <MenuItem username={1} primaryText='Richie' />
+          <MenuItem username={2} primaryText='Potsie' />
+          <MenuItem username={3} primaryText='Joanie' />
         </SelectField>
         <br />
-        <h4>or use your name ...</h4>
-        <TextField
-          onChange={this.handleChange}
-          name="username"
-          value={this.state.username}
-          hintText="Username"
-        />
+
+
         <br />
         <br />
         <FlatButton onClick={this.signUp} label="Sign Up" />
