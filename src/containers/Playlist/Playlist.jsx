@@ -132,6 +132,7 @@ class Playlist extends React.Component {
       height: 100vh;
       width: 100%;
       overflow-y: scroll;
+      margin: 0 0 80px 0;
     `;
 
     const PlayerWrap = styled.div`
