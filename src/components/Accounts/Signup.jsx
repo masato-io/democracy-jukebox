@@ -19,18 +19,16 @@ class Signup extends React.Component {
     this.signUp = this.signUp.bind(this);
   }
 
-  handleChangeSelect(event, index, value) => this.setState({username});
-    let newState = {};
-    newState[event.target.name] = event.target.value;
-    this.setState(newState);
-    // function(value: any, menuItem: any) => void
-    // handleChange = (event, index, value) => this.setState({value});
+  // handleChangeSelect(event, index, value) => this.setState({username});
+  handleChangeSelect(event, index, value) {
+    this.setState({username: value});
   }
 
   handleChange(e) {
-    let newState = {};
-    newState[e.target.name] = e.target.value;
-    this.setState(newState);
+    // let newState = {};
+    // newState[e.target.name] = e.target.value;
+    // this.setState(newState);
+    this.setState({username: e.target.value})
   }
 
   signUp(e) {
@@ -48,6 +46,18 @@ class Signup extends React.Component {
     return (
       <div>
         <SignupBackground>
+        <h4>Enter your name OR ...</h4>
+        <TextField
+          onChange={this.handleChange}
+          value={this.state.username}
+          name='username'
+          hintText='Username'
+          disabled={false}
+          floatingLabelText="Enter a fun username"
+        />
+
+        <br />
+
         <h4>Pick a name from Happy Days</h4>
         <SelectField
           floatingLabelText="Username"
@@ -55,12 +65,11 @@ class Signup extends React.Component {
           value={this.state.username}
           hintText="Username"
         >
-          <MenuItem username={1} primaryText='Richie' />
-          <MenuItem username={2} primaryText='Potsie' />
-          <MenuItem username={3} primaryText='Joanie' />
+          <MenuItem value='Richie' primaryText='Richie' />
+          <MenuItem value='Potsie' primaryText='Potsie' />
+          <MenuItem value='Joanie' primaryText='Joanie' />
         </SelectField>
         <br />
-
 
         <br />
         <br />
