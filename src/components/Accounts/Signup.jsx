@@ -44,38 +44,36 @@ class Signup extends React.Component {
       background: #ffffff;
     `;
     return (
-      <div>
         <SignupBackground>
-        <h4>Enter your name OR ...</h4>
-        <TextField
-          onChange={this.handleChange}
-          value={this.state.username}
-          name='username'
-          hintText='Username'
-          disabled={false}
-          floatingLabelText="Enter a fun username"
-        />
+          <h4>Enter your name or ...</h4>
+          <TextField
+            onChange={this.handleChange}
+            value={this.state.username}
+            name='username'
+            hintText='Username'
+            disabled={false}
+            floatingLabelText="Enter a fun username"
+          />
 
-        <br />
+          <br />
 
-        <h4>Pick a name from Happy Days</h4>
-        <SelectField
-          floatingLabelText="Username"
-          onChange={this.handleChangeSelect}
-          value={this.state.username}
-          hintText="Username"
-        >
-          <MenuItem value='Richie' primaryText='Richie' />
-          <MenuItem value='Potsie' primaryText='Potsie' />
-          <MenuItem value='Joanie' primaryText='Joanie' />
-        </SelectField>
-        <br />
+          <h4>Pick a name from Happy Days</h4>
+          <SelectField
+            floatingLabelText="Username"
+            onChange={this.handleChangeSelect}
+            value={this.state.username}
+            hintText="Username"
+          >
+            <MenuItem value='Richie' primaryText='Richie' />
+            <MenuItem value='Potsie' primaryText='Potsie' />
+            <MenuItem value='Joanie' primaryText='Joanie' />
+          </SelectField>
+          <br />
 
-        <br />
-        <br />
-        <FlatButton onClick={this.signUp} label="Sign Up" />
+          <br />
+          <br />
+          <FlatButton onClick={this.signUp} label="Sign Up" />
         </SignupBackground>
-      </div>
     );
   }
 }
