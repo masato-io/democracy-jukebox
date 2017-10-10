@@ -7,6 +7,9 @@ import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
 import styled from 'styled-components';
 
+const SignupBackground = styled.div`
+  background: #ffffff;
+`;
 
 class Signup extends React.Component {
   constructor(props) {
@@ -40,9 +43,6 @@ class Signup extends React.Component {
   }
 
   render() {
-    const SignupBackground = styled.div`
-      background: #ffffff;
-    `;
     return (
         <SignupBackground>
           <h4>Enter your name or ...</h4>
