@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  CardActions,
-  CardHeader,
-  CardMedia,
-  CardTitle,
-  CardText
-} from 'material-ui/Card';
+import { connect } from 'react-redux';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import styled from 'styled-components';
@@ -39,12 +32,9 @@ const Sub = styled.div`
 `;
 
 const SearchEntry = props => {
-  const clickHandler = () => {
-    props.onAdd(props.Result);
-  };
   return (
     <div>
-      <Item onClick={clickHandler}>
+      <Item onClick={() => props.onAdd(props.Result)}>
         <Thumbnail>
           {<img src={props.Result.album.images['2'].url} alt="" />}
         </Thumbnail>
@@ -57,4 +47,10 @@ const SearchEntry = props => {
   );
 };
 
-export default SearchEntry;
+const mapStateToProps = state => {
+  return {
+    query: state.searchReducer.query
+  };
+};
+
+export default connect(mapStateToProps, null)(SearchEntry);

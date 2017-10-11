@@ -2,9 +2,8 @@ import axios from 'axios';
 
 export function onSearch(e) {
   return function(dispatch) {
-    // console.log('this', this.state);
-    let query = e.target.value;
-    this.setState({ query: query });
+    let query = this.input.value;
+    dispatch({ type: 'UPDATE_QUERY', payload: query });
     axios
       .get(`${window.server}/songs/search`, {
         params: {
