@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { onSearch } from '../../actions/searchAction';
 import { bindActionCreators } from 'redux';
+import { getSongs } from '../../actions/playlistActions';
 // api
 import axios from 'axios';
 import TextField from 'material-ui/TextField';
@@ -69,7 +70,7 @@ class Search extends React.Component {
     axios
       .post(`${window.server}/songs`, newSong)
       .then(response => {
-        window.location.href = `${window.server}/hostLogin`;
+        // window.location.href = `${window.server}/hostLogin`;
       })
       .catch(err => {
         console.log(err);
