@@ -151,13 +151,6 @@ class Playlist extends React.Component {
 
     return (
       <PlaylistComponentWrap>
-        {/* PLAYER */}
-        <PlayerWrap>
-          {this.state.currentSong && (
-            <Player trackId={this.state.currentSong.link.split('track/')[1]} />
-          )}
-        </PlayerWrap>
-
         {/* PLAYLIST */}
         <div style={playListStyle}>
           {this.props.songs &&
@@ -174,6 +167,13 @@ class Playlist extends React.Component {
               );
             })}
         </div>
+
+        {/* PLAYER */}
+        <PlayerWrap>
+          {this.state.currentSong && (
+            <Player trackId={this.state.currentSong.link.split('track/')[1]} />
+          )}
+        </PlayerWrap>
       </PlaylistComponentWrap>
     );
   }
