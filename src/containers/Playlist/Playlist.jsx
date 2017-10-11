@@ -185,13 +185,4 @@ const mapStateToProps = state => {
   };
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return bindActionCreators(
-//     {
-//       getSongs: getSongs
-//     },
-//     dispatch
-//   );
-// };
-
 export default connect(mapStateToProps, null)(Playlist);

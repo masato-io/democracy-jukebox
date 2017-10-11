@@ -9,20 +9,32 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import Login from '../../components/Accounts/Login.jsx';
-import SearchEntry from '../../components/Search/SearchEntry.jsx';
+import AddSongEntry from '../../components/Search/AddSongEntry.jsx';
 // styled-components
 import styled from 'styled-components';
 
 const SearchResult = styled.div`
   background: #fff;
   font-size: 13px;
-  height: 80vh;
-  width: 680px;
+  height: 300px;
+  width: 563px;
   position: fixed;
   z-index: 200;
   overflow: scroll;
   border-radius: 2px;
   top: 52px;
+  right: 295px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5);
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  margin: 8px;
+  color: #363636;
+  background: #fff;
+  border: none;
+  border-radius: 2px;
+  width: 200px;
 `;
 
 class Search extends React.Component {
@@ -98,13 +110,8 @@ class Search extends React.Component {
     };
     return (
       <div>
-        {/* <Login
-          onChange={this.handleUserChange}
-          users={this.state.users}
-          currentUser={this.state.currentUser}
-        /> */}
-        <TextField
-          name="selectUser"
+        <Input
+          placeholder="Search Songs"
           onChange={e => this.props.dispatch(onSearch(e).bind(this))}
         />
         {this.props.results && this.state.query ? (
@@ -112,7 +119,7 @@ class Search extends React.Component {
             {this.props.results &&
               this.props.results.map((result, i) => {
                 return (
-                  <SearchEntry key={i} onAdd={this.onAdd} Result={result} />
+                  <AddSongEntry key={i} onAdd={this.onAdd} Result={result} />
                 );
               })}
           </SearchResult>

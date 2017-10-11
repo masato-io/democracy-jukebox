@@ -14,17 +14,26 @@ import styled from 'styled-components';
 const Header = styled.div`
   background: #252d47;
   height: 64px;
-  width: 100%;
   color: #fff;
   display: flex;
   align-items: center;
   padding: 0 20px;
+  justify-content: space-between;
+`;
+
+const Left = styled.div`
+  background: #252d47;
+  height: 64px;
+  color: #fff;
+  display: flex;
+  align-items: center;
   transition: all 0.2s ease;
   > h1 {
     font-size: 16px;
     margin: 0 0 0 12px;
   }
 `;
+const Right = styled.div``;
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -52,9 +61,13 @@ class Navbar extends React.Component {
     return (
       <div>
         <Header>
-          <NavigationMenu color={grey50} onClick={this.handleToggle} />
-          <h1>JukeBox</h1>
-          <AddSongs />
+          <Left>
+            <NavigationMenu color={grey50} onClick={this.handleToggle} />
+            <h1>JukeBox</h1>
+          </Left>
+          <Right>
+            <AddSongs />
+          </Right>
         </Header>
         <Drawer
           docked={false}
@@ -65,9 +78,9 @@ class Navbar extends React.Component {
           <MenuItem onClick={this.handleClose}>
             <Link to="/">Playlist</Link>
           </MenuItem>
-          <MenuItem onClick={this.handleClose}>
+          {/* <MenuItem onClick={this.handleClose}>
             <Link to="/search">Search</Link>
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem onClick={this.handleClose}>
             <Link to="/signup">Sign Up</Link>
           </MenuItem>
