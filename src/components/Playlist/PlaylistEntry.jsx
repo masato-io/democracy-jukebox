@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  Card,
-  CardActions,
-  CardHeader,
-  CardMedia,
-  CardTitle,
-  CardText
-} from 'material-ui/Card';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+
+// styled-components
+import styled from 'styled-components';
+import { injectGlobal } from 'styled-components';
 
 const PlaylistEntry = props => {
   const handleUpVote = () => {
@@ -22,62 +17,112 @@ const PlaylistEntry = props => {
     props.handlePlay(props.Song);
   };
 
-  const cardStyle = {
-    display: 'block',
-    margin: '40px',
-    width: '250px',
-    margin: '15px',
-    transitionDuration: '0.3s',
-    float: 'left',
-    padding: '2px'
-  };
 
-  const containerStyle = {
-    height: '300px'
-  };
-  const divStyle = {
-    textAlign: 'center'
-  };
-  const buttonStyle = {
-    margin: '5px'
-  };
-  const indexStyle = {
-    position: 'relative',
-    top: '-20px',
-    left: '95px'
-  };
+
+  const PlaylistItem = styled.div`
+    width: 90%;
+    background-color: #181C2F;
+    color: white;
+    margin: 15px;
+    vertical-align: middle;
+    position: relative;
+    height: 50px;
+  `;
+
+  const IndexItem = styled.div`
+    padding: 15px;
+    position: absolute;
+
+  `;
+
+  const SongImg = styled.div`
+    position: absolute;
+    left: 10%;
+    top: 0;
+    bottom: 0;
+  `;
+
+  const SongName = styled.div`
+    padding: 15px;
+    position: absolute;
+    left: 20%;
+    text-overflow: ellipsis;
+  `;
+
+  const AddedBy = styled.div`
+    padding: 15px;
+    position: absolute;
+    left: 80%;
+  `;
+
+  const SongArtist = styled.div`
+    padding: 15px;
+    position: absolute;
+    left: 40%;
+    text-overflow: ellipsis;
+  `;
+
+  const UpVote = styled.div`
+    padding: 15px;
+    position: absolute;
+    left: 80%;
+  `;
+
+  const DownVote = styled.div`
+    padding: 15px;
+    position: absolute;
+    left: 90%;
+  `;
+
+  const UpThumb = styled.div`
+    padding: 15px;
+    position: absolute;
+    left: 75%;
+  `;
+
+  const DownThumb = styled.div`
+    padding: 15px;
+    position: absolute;
+    left: 85%;
+  `;
+
+  const imgFix = {
+    width: '50px'
+  }
+
+
 
   return (
     <div>
-      <Card style={cardStyle}>
-        <FloatingActionButton style={indexStyle}>
-          {props.index}
-        </FloatingActionButton>
-        <CardMedia>
-          <img src={props.Song.image} alt="" />
-        </CardMedia>
-        <CardTitle title={props.Song.name} subtitle={props.Song.artist} />
-        <CardText>Added by: {props.Song.userName}</CardText>
-        <CardActions>
-          <div style={divStyle}>
-            <FloatingActionButton
-              style={buttonStyle}
-              onClick={handleUpVote}
-              mini={true}
-            >
-              +{props.Song.upVoteCount}
-            </FloatingActionButton>
-            <FloatingActionButton
-              style={buttonStyle}
-              onClick={handleDownVote}
-              mini={true}
-              secondary={true}
-            >
-              -{props.Song.downVoteCount}
-            </FloatingActionButton>
-          </div>
-        </CardActions>
-      </Card>
+    <PlaylistItem>
+      <IndexItem>
+        {props.index}
+      </IndexItem>
+      <SongImg>
+        <img style={imgFix} src={props.Song.image} alt="" />
+      </SongImg>
+      <SongName>
+        {props.Song.name}
+      </SongName>
+      <AddedBy>
+        {props.Song.username}
+      </AddedBy>
+      <SongArtist>
+        {props.Song.artist}
+      </SongArtist>
+      <UpThumb>
+        <img src="../../assets/thmb-up.png" alt="" />
+      </UpThumb>
+      <UpVote onClick={handleUpVote} mini={true}>
+        +{props.Song.upVoteCount}
+      </UpVote>
+      <DownThumb>
+        <img src="../../assets/thmb-dwn.png" alt="" />
+      </DownThumb>
+      <DownVote  onClick={handleDownVote} mini={true} secondary={true}>
+        -{props.Song.downVoteCount}
+      </DownVote>
+    </PlaylistItem>
     </div>
   );
 };
