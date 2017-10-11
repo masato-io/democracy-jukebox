@@ -14,10 +14,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { location } = this.props;
-    if (!location.hash) {
-      window.location = window.server + '/hostLogin';
-    }
+    // const { location } = this.props;
+    // if (!location.hash) {
+    //   window.location = window.server + '/hostLogin';
+    // }
   }
 
   render() {

@@ -1,5 +1,6 @@
 // *** Helper ***
 const spotifyHelpers = require('./spotifyHelpers.js');
+const credentials = require('../env/credentials.js');
 
 const User = require('../../db/user');
 const Song = require('../../db/song');
@@ -48,15 +49,13 @@ exports.DeleteSong = (req, res) => {
 };
 
 exports.FetchSongs = (req, res) => {
-  Song.find({})
-    .sort({ netVoteCount: 'descending' })
-    .limit(500)
-    .then(songs => {
-      res.json(songs);
-    })
-    .catch(err => {
-      res.status(400).send(err);
-    });
+  Song.find({}).sort({netVoteCount: 'descending'}).limit(300)
+  .then((songs) => {
+    res.json(songs);
+  })
+  .catch((err) => {
+    res.status(400).send(err);
+  });
 };
 
 exports.RegisterVoteOnSong = (req, res) => {
