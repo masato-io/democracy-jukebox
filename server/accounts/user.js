@@ -7,6 +7,7 @@ const Song = require('../../db/song');
 
 exports.FetchAllUsers = (req,res) => {
   User.find({})
+  .sort('name')
   .then((users) => {
     res.json(users);
   })
