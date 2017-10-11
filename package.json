@@ -6,10 +6,11 @@
   "main": "index.js",
   "name": "my-project",
   "scripts": {
-    "start": "webpack-dev-server --port 8080 --host 127.0.0.1 --open --config webpack.dev.js",
+    "start": "node server/server.js",
+    "dev": "webpack-dev-server --port 8080 --host 127.0.0.1 --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
     "compile": "webpack -p",
-    "production": "grunt deploy",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "production": "grunt deploy"
   },
   "version": "1.0.0",
   "dependencies": {
