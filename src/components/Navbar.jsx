@@ -62,10 +62,28 @@ class Navbar extends React.Component {
   }
 
   render() {
+
+    const { location } = this.props;
+
     const navbarStyle = {
       zIndex: '1',
       backgroundColor: '#181C2F'
     };
+
+    if (!location.hash) {
+      var renderHostLogin = (
+        <MenuItem>
+          <a href='#' onClick={this.hostLogin}>Host Login</a>
+        </MenuItem>
+      )
+    } else {
+      var renderAdminDashboard = (
+        <MenuItem onClick={this.handleClose}>
+          <Link to="/host">Host Dashboard</Link>
+        </MenuItem>
+      )
+    }
+
     return (
       <div>
         <Header>
@@ -92,9 +110,8 @@ class Navbar extends React.Component {
           <MenuItem onClick={this.handleClose}>
             <Link to="/signup">Sign Up</Link>
           </MenuItem>
-          <MenuItem>
-            <a href='#' onClick={this.hostLogin}>Host Login</a>
-          </MenuItem>
+          {renderHostLogin}
+          {renderAdminDashboard}
         </Drawer>
       </div>
     );

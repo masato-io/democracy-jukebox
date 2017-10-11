@@ -6,6 +6,15 @@ import Container from './Container.jsx';
 // styled-components
 import styled from 'styled-components';
 import { injectGlobal } from 'styled-components';
+import {SetSpotifyAccessTokens} from '../actions/credentialActions'
+
+import { connect } from 'react-redux';
+@connect((store) => {
+  return {
+    access_token: store.AccountsReducer.access_token,
+    refresh_token: store.AccountsReducer.refresh_token
+  }
+})
 
 class App extends React.Component {
   constructor(props) {
@@ -14,13 +23,21 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // const { location } = this.props;
-    // if (!location.hash) {
-    //   window.location = window.server + '/hostLogin';
-    // }
+    const { location } = this.props;
+    if (location.hash) {
+      var access_start = location.hash.indexOf('access_token=') + 13;
+      var access_end = location.hash.indexOf('&');
+      var access_token = location.hash.substring(access_start, access_end);
+      var refresh_start = location.hash.indexOf('refresh_token=') + 14;
+      var refresh_token = location.hash.substring(refresh_start);
+      this.props.dispatch(SetSpotifyAccessTokens(access_token, refresh_token));
+    }
   }
 
   render() {
+
+    const { location } = this.props;
+
     injectGlobal`
       @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800');
 
@@ -54,7 +71,7 @@ class App extends React.Component {
         <AppWrap>
           <Banner />
           <MuiThemeProvider>
-            <Navbar />
+            <Navbar location={location}/>
           </MuiThemeProvider>
           <Container />
         </AppWrap>
