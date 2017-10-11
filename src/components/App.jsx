@@ -32,7 +32,7 @@ class App extends React.Component {
     `;
 
     const AppBackground = styled.div`
-      background: #252d47;
+      background: #ededed;
       height: calc(100vh);
       width: 100%;
       display: flex;
