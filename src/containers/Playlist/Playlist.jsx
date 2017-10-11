@@ -132,6 +132,7 @@ class Playlist extends React.Component {
       height: 100vh;
       width: 100%;
       overflow-y: scroll;
+      margin: 0 0 80px 0;
     `;
 
     const PlayerWrap = styled.div`
@@ -150,13 +151,6 @@ class Playlist extends React.Component {
 
     return (
       <PlaylistComponentWrap>
-        {/* PLAYER */}
-        <PlayerWrap>
-          {this.state.currentSong && (
-            <Player trackId={this.state.currentSong.link.split('track/')[1]} />
-          )}
-        </PlayerWrap>
-
         {/* PLAYLIST */}
         <div style={playListStyle}>
           {this.props.songs &&
@@ -173,6 +167,13 @@ class Playlist extends React.Component {
               );
             })}
         </div>
+
+        {/* PLAYER */}
+        <PlayerWrap>
+          {this.state.currentSong && (
+            <Player trackId={this.state.currentSong.link.split('track/')[1]} />
+          )}
+        </PlayerWrap>
       </PlaylistComponentWrap>
     );
   }
@@ -183,14 +184,5 @@ const mapStateToProps = state => {
     songs: state.songsReducer.songs
   };
 };
-
-// const mapDispatchToProps = dispatch => {
-//   return bindActionCreators(
-//     {
-//       getSongs: getSongs
-//     },
-//     dispatch
-//   );
-// };
 
 export default connect(mapStateToProps, null)(Playlist);

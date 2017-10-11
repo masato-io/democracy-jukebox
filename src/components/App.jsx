@@ -32,8 +32,8 @@ class App extends React.Component {
     `;
 
     const AppBackground = styled.div`
-      background: #ffffff;
-      height: 100%;
+      background: #ededed;
+      height: calc(100vh);
       width: 100%;
       display: flex;
       flex-direction: column;

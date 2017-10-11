@@ -1,8 +1,10 @@
 import axios from 'axios';
 
-export function onSearch(query) {
+export function onSearch(e) {
   return function(dispatch) {
     // console.log('this', this.state);
+    let query = e.target.value;
+    this.setState({ query: query });
     axios
       .get(`${window.server}/songs/search`, {
         params: {
