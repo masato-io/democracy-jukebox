@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Playlist from '../containers/Playlist/Playlist.jsx';
 import Signup from '../components/Accounts/Signup.jsx';
 import Login from '../components/Accounts/Login.jsx';
-import Search from '../containers/Search/Search.jsx';
+import AddSong from '../containers/Search/AddSong.jsx';
 
 class Container extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class Container extends React.Component {
           <Route exact path="/" component={Playlist} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/search" component={Search} />
+          <Route exact path="/search" component={AddSong} />
         </Switch>
       </MuiThemeProvider>
     );

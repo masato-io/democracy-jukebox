@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { onSearch } from '../../actions/searchAction';
+import { onAdd } from '../../actions/addSearchResultAction';
 import { bindActionCreators } from 'redux';
 import { getSongs } from '../../actions/playlistActions';
 // api
@@ -42,7 +43,6 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: '',
       users: [],
       currentUser: '',
       usersSongs: []
@@ -57,24 +57,7 @@ class Search extends React.Component {
   }
 
   onAdd(song) {
-    let newSong = {};
-    newSong.name = song.name;
-    newSong.image = song.album.images[1].url;
-    newSong.link = song.external_urls.spotify;
-    newSong.artist = song.artists[0].name;
-    if (this.state.currentUser === '') {
-      newSong.userName = 'anonymous';
-    } else {
-      newSong.userName = this.state.currentUser.name;
-    }
-    axios
-      .post(`${window.server}/songs`, newSong)
-      .then(response => {
-        // window.location.href = `${window.server}/hostLogin`;
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.props.dispatch(onAdd(song).bind(this));
   }
 
   handleUserChange(user) {
@@ -114,8 +97,11 @@ class Search extends React.Component {
         <Input
           placeholder="Search Songs"
           onChange={e => this.props.dispatch(onSearch(e).bind(this))}
+          innerRef={comp => {
+            this.input = comp;
+          }}
         />
-        {this.props.results && this.state.query ? (
+        {this.props.results && this.props.query ? (
           <SearchResult>
             {this.props.results &&
               this.props.results.map((result, i) => {
@@ -132,7 +118,8 @@ class Search extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    results: state.searchReducer.results
+    results: state.searchReducer.results,
+    query: state.searchReducer.query
   };
 };
 
