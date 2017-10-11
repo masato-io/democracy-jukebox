@@ -117,7 +117,7 @@ class Playlist extends React.Component {
 
     const playListStyle = {
       display: 'inline-block',
-      width: '50%',
+      width: '90%',
       float: 'right'
     };
     const playButtonStyle = {
