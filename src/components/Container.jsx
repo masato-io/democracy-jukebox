@@ -2,9 +2,10 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Playlist from '../containers/Playlist/Playlist.jsx';
-import Signup from '../components/Accounts/Signup.jsx';
-import Login from '../components/Accounts/Login.jsx';
 import Search from '../containers/Search/Search.jsx';
+import Signup from './Accounts/Signup.jsx';
+import Login from './Accounts/Login.jsx';
+import Dashboard from './Host/Dashboard.jsx';
 
 class Container extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class Container extends React.Component {
           <Route exact path="/" component={Playlist} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/search" component={Search} />
+          <Route exact path="/host" component={Dashboard} />
         </Switch>
       </MuiThemeProvider>
     );

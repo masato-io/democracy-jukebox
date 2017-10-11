@@ -19,16 +19,6 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const querystring = require('querystring');
 
-// *** Session ***
-var session = require('express-session');
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true
-}));
-
-
-
 // *** Routes ***
 var users = require('./accounts/user');
 var playlist = require('./spotify/playlist');

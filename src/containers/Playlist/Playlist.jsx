@@ -16,6 +16,14 @@ import FlatButton from 'material-ui/FlatButton';
 // styled-components
 import styled from 'styled-components';
 
+@connect((store) => {
+  return {
+    access_token: store.AccountsReducer.access_token,
+    refresh_token: store.AccountsReducer.refresh_token
+  }
+})
+
+
 class Playlist extends React.Component {
   constructor(props) {
     super(props);
@@ -29,8 +37,11 @@ class Playlist extends React.Component {
   }
 
   componentDidMount() {
-    this.getSpotifyToken();
-    this.getDeviceId();
+    const {access_token, refresh_token} = this.props;
+    if (access_token && refresh_token) {
+      this.getSpotifyToken();
+      this.getDeviceId();
+    }
     this.props.dispatch(getSongs().bind(this));
   }
 
@@ -74,7 +85,7 @@ class Playlist extends React.Component {
     const access_token = params.access_token;
     const refresh_token = params.refresh_token;
 
-    spotifyApi.setAccessToken(access_token);
+    spotifyApi.setAccessToken(this.props.access_token);
     return access_token;
   }
 
