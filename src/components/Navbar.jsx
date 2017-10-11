@@ -44,6 +44,7 @@ class Navbar extends React.Component {
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.hostLogin = this.hostLogin.bind(this);
   }
 
   handleToggle() {
@@ -51,6 +52,13 @@ class Navbar extends React.Component {
   }
   handleClose() {
     this.setState({ open: false });
+  }
+  hostLogin() {
+    this.setState({ open: false });
+    var login = confirm('Do you want to login as host?');
+    if (login == true) {
+      window.location = window.server + '/hostLogin';
+    }
   }
 
   render() {
@@ -83,6 +91,9 @@ class Navbar extends React.Component {
           </MenuItem> */}
           <MenuItem onClick={this.handleClose}>
             <Link to="/signup">Sign Up</Link>
+          </MenuItem>
+          <MenuItem>
+            <a href='#' onClick={this.hostLogin}>Host Login</a>
           </MenuItem>
         </Drawer>
       </div>

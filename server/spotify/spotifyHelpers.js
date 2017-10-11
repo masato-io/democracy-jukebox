@@ -37,22 +37,27 @@ const generateRandomString = length => {
 
 exports.getTrackSearchResults = queryString => {
   return new Promise((resolve, reject) => {
-    request.post(searchAuthOptions, (error, response, body) => {
-      if (!error && response.statusCode === 200) {
-        const token = body.access_token;
-        const options = {
-          url: `https://api.spotify.com/v1/search?q=${queryString}&type=track&market=US&limit=10`,
-          headers: { Authorization: 'Bearer ' + token },
-          json: true
-        };
-        request.get(options, (error, response, body) => {
-          if (error) {
-            reject(error);
-          }
-          resolve(body);
-        });
-      }
-    });
+    if (credentials.access_token) {
+      request.post(searchAuthOptions, (error, response, body) => {
+        if (!error && response.statusCode === 200) {
+          // const token = body.access_token;
+          const token = credentials.access_token;
+          const options = {
+            url: `https://api.spotify.com/v1/search?q=${queryString}&type=track&market=US&limit=10`,
+            headers: { Authorization: 'Bearer ' + token },
+            json: true
+          };
+          request.get(options, (error, response, body) => {
+            if (error) {
+              reject(error);
+            }
+            resolve(body);
+          });
+        }
+      });
+    } else {
+      reject(new Error('Host must login'));
+    }
   });
 };
 
@@ -100,6 +105,11 @@ exports.redirectAfterLogin = (req, res) => {
     if (!error && response.statusCode === 200) {
       const access_token = body.access_token;
       const refresh_token = body.refresh_token;
+
+      credentials.access_token = access_token;
+      credentials.refresh_token = refresh_token;
+
+      console.log(credentials);
 
       //redirect host user back to playlist page and pass token to browser
       res.redirect(

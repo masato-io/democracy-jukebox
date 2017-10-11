@@ -1,5 +1,6 @@
 // *** Helper ***
 const spotifyHelpers = require('./spotifyHelpers.js');
+const credentials = require('../env/credentials.js');
 
 const User = require('../../db/user');
 const Song = require('../../db/song');

@@ -15,7 +15,8 @@ export function onSearch(e) {
         dispatch({ type: 'SEARCH_SONGS', payload: response.data.tracks.items });
       })
       .catch(err => {
-        console.error.bind(err);
+        // console.error.bind(err);
+        alert('Hey Fonz! Go ask Arnold or Al to login');
       });
   };
 }
