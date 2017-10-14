@@ -21,9 +21,16 @@ const PlaylistEntry = props => {
     props.handlePlay(props.Song);
   };
 
-  console.log('JUST PROPS', props)
-  // console.log('THIS DOT PROPS', this.props)
-  console.log('THIS AND ONLY THIS', this)
+  const trimLargeNames = () => {
+    if (props.Song.name.length > 14) {
+      props.Song.name = props.Song.name.slice(0, 14) + '...'
+    }
+    if (props.Song.artist.length > 14) {
+      props.Song.artist = props.Song.artist.slice(0, 14) + '...'
+    }
+  }
+
+  trimLargeNames()
 
   const PlaylistItem = styled.div`
     width: 90%;
