@@ -4,6 +4,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { injectGlobal } from 'styled-components';
 
+//thumbs
+import thumbsUp from '../../assets/thmb-up.png';
+import thumbsDown from '../../assets/thmb-dwn.png';
+
 const PlaylistEntry = props => {
   const handleUpVote = () => {
     props.upVote(props.Song);
@@ -30,7 +34,7 @@ const PlaylistEntry = props => {
   `;
 
   const IndexItem = styled.div`
-    padding: 15px;
+    padding: 16px;
     position: absolute;
 
   `;
@@ -74,16 +78,18 @@ const PlaylistEntry = props => {
     left: 90%;
   `;
 
-  const UpThumb = styled.div`
-    padding: 15px;
+  const UpThumb = styled.img`
+    padding: 15px 10px 15px 15px;
     position: absolute;
     left: 75%;
+    max-width: 20px;
   `;
 
-  const DownThumb = styled.div`
-    padding: 15px;
+  const DownThumb = styled.img`
+    padding: 20px 25px 15px 25px;
     position: absolute;
     left: 85%;
+    max-width: 20px;
   `;
 
   const imgFix = {
@@ -110,15 +116,11 @@ const PlaylistEntry = props => {
       <SongArtist>
         {props.Song.artist}
       </SongArtist>
-      <UpThumb>
-        <img src="../../assets/thmb-up.png" alt="" />
-      </UpThumb>
+      <UpThumb src= {thumbsUp}></UpThumb>
       <UpVote onClick={handleUpVote} mini={true}>
         +{props.Song.upVoteCount}
       </UpVote>
-      <DownThumb>
-        <img src="../../assets/thmb-dwn.png" alt="" />
-      </DownThumb>
+      <DownThumb src= {thumbsDown}></DownThumb>
       <DownVote  onClick={handleDownVote} mini={true} secondary={true}>
         -{props.Song.downVoteCount}
       </DownVote>
