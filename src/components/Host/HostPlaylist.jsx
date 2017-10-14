@@ -39,12 +39,27 @@ class HostPlaylist extends React.Component {
   removeSong(songId) {
     axios
       .delete(`${window.server}/song`, { params: { id: songId } })
-      .then(response => {
+      .then(function(response) {
         this.props.dispatch(getSongs().bind(this));
-      })
+      }.bind(this))
       .catch(err => {
         console.log(err);
       });
+  }
+
+  clearPlaylist() {
+    var proceed = confirm ('Are you sure you want to break all the records, Fonz?');
+
+    if (proceed) {
+      axios
+        .delete(`${window.server}/collection`)
+        .then(function(response){
+          setTimeout(this.props.dispatch(getSongs().bind(this)), 1000).bind(this);
+        }.bind(this))
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 
   render() {
@@ -92,7 +107,9 @@ class HostPlaylist extends React.Component {
 
     return (
       <PlaylistComponentWrap>
-        {/* PLAYLIST */}
+        <div>
+          <a href='#' onClick={this.clearPlaylist}>Clear Playlist</a>
+        </div>
         <div style={playListStyle}>
           {this.props.songs &&
             this.props.songs.map((song, i) => {

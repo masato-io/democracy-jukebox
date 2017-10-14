@@ -48,6 +48,11 @@ exports.DeleteSong = (req, res) => {
   res.sendStatus(201);
 };
 
+exports.ClearSongCollection = (req, res) => {
+  console.log('ClearSongCollection');
+  Song.collection.remove();
+}
+
 exports.FetchSongs = (req, res) => {
   Song.find({}).sort({netVoteCount: 'descending'}).limit(300)
   .then((songs) => {
