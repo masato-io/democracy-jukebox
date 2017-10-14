@@ -15,6 +15,15 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
+// Blocked Loading HTTP Mixed Content on Heroku
+app.use(function(req, res, next) {
+  if (req.headers['x-forwarded-proto'] === 'https') {
+    res.redirect('http://' + req.hostname + req.url);
+  } else {
+    next();
+  }
+});
+
 // *** Parser ***
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
