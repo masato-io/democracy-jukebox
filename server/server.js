@@ -7,8 +7,6 @@ const path = require('path');
 app.use(cors());
 const env = require('./env/credentials.js');
 
-<<<<<<< HEAD
-=======
 // *** Static Assets ***
 app.use(express.static(path.join(__dirname, '../')));
 
@@ -17,7 +15,15 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
->>>>>>> optimizing for heroku deploy
+// Blocked Loading HTTP Mixed Content on Heroku
+app.use(function(req, res, next) {
+  if (req.headers['x-forwarded-proto'] === 'https') {
+    res.redirect('http://' + req.hostname + req.url);
+  } else {
+    next();
+  }
+});
+
 // *** Parser ***
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,11 +37,8 @@ var users = require('./accounts/user');
 var playlist = require('./spotify/playlist');
 var spotifyHelpers = require('./spotify/spotifyHelpers.js');
 
-<<<<<<< HEAD
-app.use("/", express.static(__dirname));
+app.use('/', express.static(__dirname));
 
-=======
->>>>>>> optimizing for heroku deploy
 app.get('/songs', playlist.FetchSongs);
 app.post('/songs', playlist.AddSongToCollections);
 
@@ -43,7 +46,7 @@ app.get('/songs/search', playlist.SearchSongResults);
 
 app.put('/song', playlist.RegisterVoteOnSong);
 app.delete('/song', playlist.DeleteSong);
-app.delete('/collection', playlist.ClearSongCollection)
+app.delete('/collection', playlist.ClearSongCollection);
 
 app.get('/users', users.FetchAllUsers);
 
@@ -60,6 +63,6 @@ app.get('/callback', (req, res) => {
 });
 
 // *** Server ***
-const server = app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, function() {
   console.log('Listening at http://localhost:3000');
 });
