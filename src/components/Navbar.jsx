@@ -57,12 +57,13 @@ class Navbar extends React.Component {
     this.setState({ open: false });
     var login = confirm('Do you want to login as host?');
     if (login == true) {
-      window.location = window.server + '/hostLogin';
+      // window.location = window.server + '/hostLogin';
+      // window.location = http://peaceful-retreat-84338.herokuapp.com/hostLogin
+      //
     }
   }
 
   render() {
-
     const { location } = this.props;
 
     const navbarStyle = {
@@ -73,15 +74,17 @@ class Navbar extends React.Component {
     if (!location.hash) {
       var renderHostLogin = (
         <MenuItem>
-          <a href='#' onClick={this.hostLogin}>Host Login</a>
+          <a href="#" onClick={this.hostLogin}>
+            Host Login
+          </a>
         </MenuItem>
-      )
+      );
     } else {
       var renderAdminDashboard = (
         <MenuItem onClick={this.handleClose}>
           <Link to="/host">Host Dashboard</Link>
         </MenuItem>
-      )
+      );
     }
 
     return (
