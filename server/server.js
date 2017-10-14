@@ -28,6 +28,7 @@ app.get('/songs/search', playlist.SearchSongResults);
 
 app.put('/song', playlist.RegisterVoteOnSong);
 app.delete('/song', playlist.DeleteSong);
+app.delete('/collection', playlist.ClearSongCollection)
 
 app.get('/users', users.FetchAllUsers);
 
