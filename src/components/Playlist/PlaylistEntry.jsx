@@ -23,7 +23,7 @@ const PlaylistEntry = props => {
 
   const PlaylistItem = styled.div`
     width: 90%;
-    background-color: #181C2F;
+    background-color: #181c2f;
     color: white;
     margin: 15px;
     vertical-align: middle;
@@ -34,7 +34,6 @@ const PlaylistEntry = props => {
   const IndexItem = styled.div`
     padding: 16px;
     position: absolute;
-
   `;
 
   const SongImg = styled.div`
@@ -92,37 +91,27 @@ const PlaylistEntry = props => {
 
   const imgFix = {
     width: '50px'
-  }
-
-
+  };
 
   return (
     <div>
-    <PlaylistItem>
-      <IndexItem>
-        {props.index}
-      </IndexItem>
-      <SongImg>
-        <img style={imgFix} src={props.Song.image} alt="" />
-      </SongImg>
-      <SongName>
-        {props.Song.name}
-      </SongName>
-      <AddedBy>
-        {props.Song.username}
-      </AddedBy>
-      <SongArtist>
-        {props.Song.artist}
-      </SongArtist>
-      <UpThumb src= {thumbsUp}></UpThumb>
-      <UpVote onClick={handleUpVote} mini={true}>
-        +{props.Song.upVoteCount}
-      </UpVote>
-      <DownThumb src= {thumbsDown}></DownThumb>
-      <DownVote  onClick={handleDownVote} mini={true} secondary={true}>
-        -{props.Song.downVoteCount}
-      </DownVote>
-    </PlaylistItem>
+      <PlaylistItem>
+        <IndexItem>{props.index}</IndexItem>
+        <SongImg>
+          <img style={imgFix} src={props.Song.image} alt="" />
+        </SongImg>
+        <SongName>{props.Song.name}</SongName>
+        <AddedBy>{props.Song.username}</AddedBy>
+        <SongArtist>{props.Song.artist}</SongArtist>
+        <UpThumb src={thumbsUp} />
+        <UpVote onClick={handleUpVote} mini={true}>
+          +{props.Song.upVoteCount}
+        </UpVote>
+        <DownThumb src={thumbsDown} />
+        <DownVote onClick={handleDownVote} mini={true} secondary={true}>
+          -{props.Song.downVoteCount}
+        </DownVote>
+      </PlaylistItem>
     </div>
   );
 };
