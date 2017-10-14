@@ -7,7 +7,8 @@
   "name": "my-project",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "webpack-dev-server --port 8080 --host 127.0.0.1 --open --config webpack.dev.js",
+    "dev":
+      "webpack-dev-server --port 8080 --host 127.0.0.1 --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "compile": "webpack -p",
     "production": "grunt deploy"
@@ -30,6 +31,7 @@
     "compression-webpack-plugin": "^1.0.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
     "express": "^4.14.1",
     "firebase": "^4.4.0",
     "grunt": "^1.0.1",
