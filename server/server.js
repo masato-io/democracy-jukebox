@@ -6,11 +6,6 @@ const app = express();
 app.use(cors());
 const env = require('./env/credentials.js');
 
-// *** Static Assets ***
-app.use(express.static(__dirname + '/public'));
-
-
-
 // *** Parser ***
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,6 +19,7 @@ var users = require('./accounts/user');
 var playlist = require('./spotify/playlist');
 var spotifyHelpers = require('./spotify/spotifyHelpers.js');
 
+app.use("/", express.static(__dirname));
 
 app.get('/songs', playlist.FetchSongs);
 app.post('/songs', playlist.AddSongToCollections);

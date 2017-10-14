@@ -17,8 +17,6 @@ const PlaylistEntry = props => {
     props.handlePlay(props.Song);
   };
 
-
-
   const PlaylistItem = styled.div`
     width: 90%;
     background-color: #181C2F;

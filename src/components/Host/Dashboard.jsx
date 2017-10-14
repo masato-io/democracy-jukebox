@@ -1,4 +1,5 @@
 import React from 'react';
+import HostPlaylist from './HostPlaylist.jsx';
 
 class Dashboard extends React.Component {
   constructor (props){
@@ -11,7 +12,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        This is where the host dashboard where you can clear playlist, move to the next song, and other functions
+        <HostPlaylist />
       </div>
     )
   }
