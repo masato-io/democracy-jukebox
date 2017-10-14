@@ -1,5 +1,5 @@
-exports.client_id = 'f5405637034e4d1fbb01cfaf3c1616fe';
-exports.client_secret = '5d814b098b4e42c9ac393238370e6f97';
+exports.client_id = '9b830326a7094298ad2456bfb7097014';
+exports.client_secret = 'dac22a9b27dd406f96241d21f6593960';
 // exports.redirect_uri = 'http://127.0.0.1:3000/callback'; // dev
 exports.redirect_uri = 'http://peaceful-retreat-84338.herokuapp.com/callback'; // prod
 // exports.redirect_homepage = 'http://127.0.0.1:8080'; // dev
