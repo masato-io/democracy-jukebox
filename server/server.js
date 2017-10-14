@@ -1,11 +1,23 @@
 // *** Express ***
 const express = require('express');
-var cors = require('cors')
+var cors = require('cors');
 const app = express();
+const path = require('path');
 
 app.use(cors());
 const env = require('./env/credentials.js');
 
+<<<<<<< HEAD
+=======
+// *** Static Assets ***
+app.use(express.static(path.join(__dirname, '../')));
+
+// serve html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+>>>>>>> optimizing for heroku deploy
 // *** Parser ***
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,8 +31,11 @@ var users = require('./accounts/user');
 var playlist = require('./spotify/playlist');
 var spotifyHelpers = require('./spotify/spotifyHelpers.js');
 
+<<<<<<< HEAD
 app.use("/", express.static(__dirname));
 
+=======
+>>>>>>> optimizing for heroku deploy
 app.get('/songs', playlist.FetchSongs);
 app.post('/songs', playlist.AddSongToCollections);
 
@@ -48,4 +63,3 @@ app.get('/callback', (req, res) => {
 const server = app.listen(3000, () => {
   console.log('Listening at http://localhost:3000');
 });
-
