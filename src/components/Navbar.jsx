@@ -73,13 +73,14 @@ class Navbar extends React.Component {
   }
 
   render() {
-
     const { location, access_token } = this.props;
+
 
     const navbarStyle = {
       zIndex: '1',
       backgroundColor: '#181C2F'
     };
+
 
     if (location.hash || access_token) {
       var renderAdminDashboard = (
