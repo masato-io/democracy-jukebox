@@ -1,15 +1,19 @@
 // *** Express ***
 const express = require('express');
-var cors = require('cors')
+var cors = require('cors');
 const app = express();
+const path = require('path');
 
 app.use(cors());
 const env = require('./env/credentials.js');
 
 // *** Static Assets ***
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, '../')));
 
-
+// serve html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
 
 // *** Parser ***
 const bodyParser = require('body-parser');
@@ -23,7 +27,6 @@ const querystring = require('querystring');
 var users = require('./accounts/user');
 var playlist = require('./spotify/playlist');
 var spotifyHelpers = require('./spotify/spotifyHelpers.js');
-
 
 app.get('/songs', playlist.FetchSongs);
 app.post('/songs', playlist.AddSongToCollections);
@@ -51,4 +54,3 @@ app.get('/callback', (req, res) => {
 const server = app.listen(3000, () => {
   console.log('Listening at http://localhost:3000');
 });
-
