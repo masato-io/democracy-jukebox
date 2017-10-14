@@ -11,6 +11,9 @@ import AddSongs from '../containers/Search/AddSong.jsx';
 // styled-components
 import styled from 'styled-components';
 
+import { connect } from 'react-redux';
+
+
 const Header = styled.div`
   background: #252d47;
   height: 64px;
@@ -34,6 +37,14 @@ const Left = styled.div`
   }
 `;
 const Right = styled.div``;
+
+
+@connect((store) => {
+  return {
+    access_token: store.AccountsReducer.access_token,
+    refresh_token: store.AccountsReducer.refresh_token
+  }
+})
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -62,27 +73,27 @@ class Navbar extends React.Component {
   }
 
   render() {
-    const { location } = this.props;
+    const { location, access_token } = this.props;
+
 
     const navbarStyle = {
       zIndex: '1',
       backgroundColor: '#181C2F'
     };
 
-    if (!location.hash) {
-      var renderHostLogin = (
-        <MenuItem>
-          <a href="#" onClick={this.hostLogin}>
-            Host Login
-          </a>
-        </MenuItem>
-      );
-    } else {
+
+    if (location.hash || access_token) {
       var renderAdminDashboard = (
         <MenuItem onClick={this.handleClose}>
           <Link to="/host">Host Dashboard</Link>
         </MenuItem>
-      );
+      )
+    } else {
+      var renderHostLogin = (
+        <MenuItem>
+          <a href='#' onClick={this.hostLogin}>Host Login</a>
+        </MenuItem>
+      )
     }
 
     return (

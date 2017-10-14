@@ -6,13 +6,18 @@ import Container from './Container.jsx';
 // styled-components
 import styled from 'styled-components';
 import { injectGlobal } from 'styled-components';
-import {SetSpotifyAccessTokens} from '../actions/credentialActions'
+import {SetSpotifyAccessTokens, SetSpotifyPlayerId} from '../actions/credentialActions'
+
+import Promise from 'bluebird';
+import SpotifyWebApi from 'spotify-web-api-js';
+const spotifyApi = new SpotifyWebApi();
 
 import { connect } from 'react-redux';
 @connect((store) => {
   return {
     access_token: store.AccountsReducer.access_token,
-    refresh_token: store.AccountsReducer.refresh_token
+    refresh_token: store.AccountsReducer.refresh_token,
+    player_id: store.AccountsReducer.player_id
   }
 })
 
@@ -31,6 +36,24 @@ class App extends React.Component {
       var refresh_start = location.hash.indexOf('refresh_token=') + 14;
       var refresh_token = location.hash.substring(refresh_start);
       this.props.dispatch(SetSpotifyAccessTokens(access_token, refresh_token));
+
+      new Promise ( function(resolve, reject) {
+        spotifyApi.setAccessToken(access_token);
+        resolve('done');
+      }).then(function(response, err){
+        spotifyApi.getMyDevices()
+        .then(
+          function(data) {
+            if (data.devices) {
+              if (data.devices.length > 0) {
+                this.props.dispatch(SetSpotifyPlayerId(data.devices[0].id));
+              }
+            }
+          }.bind(this),
+          err => { console.error(err)
+          }
+        );
+      }.bind(this));
     }
   }
 

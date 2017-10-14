@@ -7,3 +7,12 @@ export function SetSpotifyAccessTokens(access_token, refresh_token) {
     }
   });
 }
+
+export function SetSpotifyPlayerId (id) {
+  return ({
+    type: 'SET_PLAYER_ID',
+    payload: {
+      player_id: id
+    }
+  })
+}
