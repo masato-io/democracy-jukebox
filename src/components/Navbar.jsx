@@ -57,9 +57,7 @@ class Navbar extends React.Component {
     this.setState({ open: false });
     var login = confirm('Do you want to login as host?');
     if (login == true) {
-      // window.location = window.server + '/hostLogin';
-      // window.location = http://peaceful-retreat-84338.herokuapp.com/hostLogin
-      //
+      window.location = window.server + '/hostLogin';
     }
   }
 
