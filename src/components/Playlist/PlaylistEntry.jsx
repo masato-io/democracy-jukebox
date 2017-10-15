@@ -7,30 +7,67 @@ import { injectGlobal } from 'styled-components';
 //thumbs
 import thumbsUp from '../../assets/thmb-up.png';
 import thumbsDown from '../../assets/thmb-dwn.png';
+import thumbsUpFill from '../../assets/thmb-up-fill.png';
+import thumbsDownFill from '../../assets/thmb-dwn-fill.png';
 
-const PlaylistEntry = props => {
-  const handleUpVote = () => {
-    props.upVote(props.Song);
-  };
+class PlaylistEntry extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currUpThumb: thumbsUp,
+      currDownThumb: thumbsDown,
+    };
 
-  const handleDownVote = () => {
-    props.downVote(props.Song);
-  };
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.handlePlayButtonClick = this.handlePlayButtonClick.bind(this);
+    this.trimLargeNames = this.trimLargeNames.bind(this);
+  }
 
-  const handlePlayButtonClick = () => {
-    props.handlePlay(props.Song);
-  };
-
-  const trimLargeNames = () => {
-    if (props.Song.name.length > 14) {
-      props.Song.name = props.Song.name.slice(0, 14) + '...'
-    }
-    if (props.Song.artist.length > 14) {
-      props.Song.artist = props.Song.artist.slice(0, 14) + '...'
+  handleMouseEnter(thumbType) {
+    if (thumbType === 'currUpThumb') {
+      this.setState({currUpThumb: thumbsUpFill})
+    } else {
+      this.setState({currDownThumb: thumbsDownFill})
     }
   }
 
-  trimLargeNames()
+  handleMouseLeave(thumbType) {
+    if (thumbType === 'currUpThumb') {
+      this.setState({currUpThumb: thumbsUp})
+      console.log('mouse left thumbs up')
+    } else {
+      this.setState({currDownThumb: thumbsDown})
+      console.log('mouse left thumbs down')
+    }
+  }
+
+
+  handleUpVote() {
+    props.upVote(props.Song);
+  };
+
+  handleDownVote() {
+    props.downVote(props.Song);
+  };
+
+  handlePlayButtonClick() {
+    props.handlePlay(props.Song);
+  };
+
+  trimLargeNames() {
+    if (this.props.Song.name.length > 14) {
+      this.props.Song.name = this.props.Song.name.slice(0, 14) + '...'
+    }
+    if (this.props.Song.artist.length > 14) {
+      this.props.Song.artist = this.props.Song.artist.slice(0, 14) + '...'
+    }
+  }
+
+
+  render() {
+
+  this.trimLargeNames();
 
   const PlaylistItem = styled.div`
     width: 90%;
@@ -106,37 +143,55 @@ const PlaylistEntry = props => {
     width: '50px'
   };
 
-  return (
-    <div>
 
-    <PlaylistItem>
-      <IndexItem>
-        {props.index}
-      </IndexItem>
-      <SongImg>
-        <img style={imgFix} src={props.Song.image} alt="" />
-      </SongImg>
-      <SongName>
-        {props.Song.name}
-      </SongName>
-      <AddedBy>
-        {props.Song.username}
-      </AddedBy>
-      <SongArtist>
-        {props.Song.artist}
-      </SongArtist>
-      <UpThumb onClick={handleUpVote} mini={true} src= {thumbsUp}></UpThumb>
-      <UpVote onClick={handleUpVote} mini={true}>
-        +{props.Song.upVoteCount}
-      </UpVote>
-      <DownThumb onClick={handleDownVote} mini={true} src= {thumbsDown}></DownThumb>
-      <DownVote  onClick={handleDownVote} mini={true} secondary={true}>
-        -{props.Song.downVoteCount}
-      </DownVote>
-    </PlaylistItem>
 
-    </div>
-  );
+    return (
+      <div>
+      <PlaylistItem>
+        <IndexItem>
+          {this.props.index}
+        </IndexItem>
+        <SongImg>
+          <img style={imgFix} src={this.props.Song.image} alt="" />
+        </SongImg>
+        <SongName>
+          {this.props.Song.name}
+        </SongName>
+        <AddedBy>
+          {this.props.Song.username}
+        </AddedBy>
+        <SongArtist>
+          {this.props.Song.artist}
+        </SongArtist>
+        <UpThumb onClick={this.handleUpVote}
+                 src={this.state.currUpThumb}
+                 onMouseEnter={() => this.handleMouseEnter('currUpThumb')}
+                 onMouseLeave={() => this.handleMouseLeave('currUpThumb')}
+                 mini={true}
+                 ></UpThumb>
+        <UpVote onClick={this.handleUpVote}
+                mini={true}
+                onMouseEnter={() => this.handleMouseEnter('currUpThumb')}
+                onMouseLeave={() => this.handleMouseLeave('currUpThumb')}>
+          +{this.props.Song.upVoteCount}
+        </UpVote>
+        <DownThumb onClick={this.handleDownVote}
+                   src={this.state.currDownThumb}
+                   onMouseEnter={() => this.handleMouseEnter()}
+                   onMouseLeave={() => this.handleMouseLeave()}
+                   mini={true}
+                   ></DownThumb>
+        <DownVote  onClick={this.handleDownVote}
+                   mini={true}
+                   secondary={true}
+                   onMouseEnter={() => this.handleMouseEnter()}
+                   onMouseLeave={() => this.handleMouseLeave()}>
+          -{this.props.Song.downVoteCount}
+        </DownVote>
+      </PlaylistItem>
+      </div>
+    );
+  }
 };
 
 export default PlaylistEntry;
