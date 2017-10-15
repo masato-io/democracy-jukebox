@@ -21,6 +21,10 @@ const PlaylistEntry = props => {
     props.handlePlay(props.Song);
   };
 
+  console.log('JUST PROPS', props)
+  // console.log('THIS DOT PROPS', this.props)
+  console.log('THIS AND ONLY THIS', this)
+
   const PlaylistItem = styled.div`
     width: 90%;
     background-color: #181c2f;
@@ -47,7 +51,9 @@ const PlaylistEntry = props => {
     padding: 15px;
     position: absolute;
     left: 20%;
+    overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   `;
 
   const AddedBy = styled.div`
@@ -95,23 +101,33 @@ const PlaylistEntry = props => {
 
   return (
     <div>
-      <PlaylistItem>
-        <IndexItem>{props.index}</IndexItem>
-        <SongImg>
-          <img style={imgFix} src={props.Song.image} alt="" />
-        </SongImg>
-        <SongName>{props.Song.name}</SongName>
-        <AddedBy>{props.Song.username}</AddedBy>
-        <SongArtist>{props.Song.artist}</SongArtist>
-        <UpThumb src={thumbsUp} />
-        <UpVote onClick={handleUpVote} mini={true}>
-          +{props.Song.upVoteCount}
-        </UpVote>
-        <DownThumb src={thumbsDown} />
-        <DownVote onClick={handleDownVote} mini={true} secondary={true}>
-          -{props.Song.downVoteCount}
-        </DownVote>
-      </PlaylistItem>
+
+    <PlaylistItem>
+      <IndexItem>
+        {props.index}
+      </IndexItem>
+      <SongImg>
+        <img style={imgFix} src={props.Song.image} alt="" />
+      </SongImg>
+      <SongName>
+        {props.Song.name}
+      </SongName>
+      <AddedBy>
+        {props.Song.username}
+      </AddedBy>
+      <SongArtist>
+        {props.Song.artist}
+      </SongArtist>
+      <UpThumb onClick={handleUpVote} mini={true} src= {thumbsUp}></UpThumb>
+      <UpVote onClick={handleUpVote} mini={true}>
+        +{props.Song.upVoteCount}
+      </UpVote>
+      <DownThumb onClick={handleDownVote} mini={true} src= {thumbsDown}></DownThumb>
+      <DownVote  onClick={handleDownVote} mini={true} secondary={true}>
+        -{props.Song.downVoteCount}
+      </DownVote>
+    </PlaylistItem>
+
     </div>
   );
 };
