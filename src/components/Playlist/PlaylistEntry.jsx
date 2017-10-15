@@ -35,10 +35,8 @@ class PlaylistEntry extends React.Component {
   handleMouseLeave(thumbType) {
     if (thumbType === 'currUpThumb') {
       this.setState({currUpThumb: thumbsUp})
-      console.log('mouse left thumbs up')
     } else {
       this.setState({currDownThumb: thumbsDown})
-      console.log('mouse left thumbs down')
     }
   }
 
