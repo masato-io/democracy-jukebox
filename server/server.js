@@ -39,12 +39,13 @@ var spotifyHelpers = require('./spotify/spotifyHelpers.js');
 
 app.use('/', express.static(__dirname));
 
+
 app.get('/songs', playlist.FetchSongs);
 app.post('/songs', playlist.AddSongToCollections);
 
 app.get('/songs/search', playlist.SearchSongResults);
 
-app.put('/song', playlist.RegisterVoteOnSong);
+app.put('/songvote', playlist.RegisterVoteOnSong);
 app.delete('/song', playlist.DeleteSong);
 app.delete('/collection', playlist.ClearSongCollection);
 
@@ -54,6 +55,7 @@ app.get('/users', users.FetchAllUsers);
 app.post('/signup', users.NewUserSignUp);
 
 // Host Authentication
+app.get('/get_access_token', spotifyHelpers.GetAccessToken)
 app.get('/hostLogin', (req, res) => {
   spotifyHelpers.handleHostLogin(req, res);
 });

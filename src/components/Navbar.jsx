@@ -81,21 +81,21 @@ class Navbar extends React.Component {
       backgroundColor: '#181C2F'
     };
 
-
-    if (location.hash || access_token) {
-      var renderAdminDashboard = (
-        <MenuItem onClick={this.handleClose}>
-          <Link to="/host">Host Dashboard</Link>
-        </MenuItem>
-      )
-    } else {
-      var renderHostLogin = (
-        <MenuItem>
-          <a href='#' onClick={this.hostLogin}>Host Login</a>
-        </MenuItem>
-      )
+    if (location.hash.indexOf('happy_days')>-1 || location.hash.indexOf('access_token')>-1 || location.hash.indexOf('refresh_token')>-1){
+      if (access_token) {
+        var renderAdminDashboard = (
+          <MenuItem onClick={this.handleClose}>
+            <Link to="/host">Host Dashboard</Link>
+          </MenuItem>
+        )
+      } else {
+        var renderHostLogin = (
+          <MenuItem>
+            <a href='#' onClick={this.hostLogin}>Host Login</a>
+          </MenuItem>
+        )
+      }
     }
-
     return (
       <div>
         <Header>

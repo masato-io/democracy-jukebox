@@ -16,12 +16,20 @@ class PlaylistEntry extends React.Component {
     this.state = {
       currUpThumb: thumbsUp,
       currDownThumb: thumbsDown,
+      song_title: null,
+      song_artist: null
     };
 
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handlePlayButtonClick = this.handlePlayButtonClick.bind(this);
     this.trimLargeNames = this.trimLargeNames.bind(this);
+    this.handleUpVote = this.handleUpVote.bind(this);
+    this.handleDownVote = this.handleDownVote.bind(this);
+  }
+
+  componentDidMount(){
+    this.trimLargeNames();
   }
 
   handleMouseEnter(thumbType) {
@@ -42,30 +50,33 @@ class PlaylistEntry extends React.Component {
 
 
   handleUpVote() {
-    props.upVote(props.Song);
+    this.props.upVote(this.props.Song);
   };
 
   handleDownVote() {
-    props.downVote(props.Song);
+    this.props.downVote(this.props.Song);
   };
 
   handlePlayButtonClick() {
-    props.handlePlay(props.Song);
+    this.props.handlePlay(this.props.Song);
   };
 
   trimLargeNames() {
+    var obj = {
+      song_title: this.props.Song.name,
+      song_artist: this.props.Song.artist
+    }
     if (this.props.Song.name.length > 14) {
-      this.props.Song.name = this.props.Song.name.slice(0, 14) + '...'
+      obj.song_title = this.props.Song.name.slice(0, 14) + '...'
     }
     if (this.props.Song.artist.length > 14) {
-      this.props.Song.artist = this.props.Song.artist.slice(0, 14) + '...'
+      obj.song_artist = this.props.Song.artist.slice(0, 14) + '...'
     }
+    this.setState(obj);
   }
 
 
   render() {
-
-  this.trimLargeNames();
 
   const PlaylistItem = styled.div`
     width: 90%;
@@ -153,13 +164,13 @@ class PlaylistEntry extends React.Component {
           <img style={imgFix} src={this.props.Song.image} alt="" />
         </SongImg>
         <SongName>
-          {this.props.Song.name}
+          {this.state.song_title}
         </SongName>
         <AddedBy>
           {this.props.Song.username}
         </AddedBy>
         <SongArtist>
-          {this.props.Song.artist}
+          {this.state.song_artist}
         </SongArtist>
         <UpThumb onClick={this.handleUpVote}
                  src={this.state.currUpThumb}

@@ -2,6 +2,7 @@ import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Banner from './Bling/Banner.jsx';
 import Navbar from './Navbar.jsx';
+import axios from 'axios';
 import Container from './Container.jsx';
 // styled-components
 import styled from 'styled-components';
@@ -29,14 +30,20 @@ class App extends React.Component {
 
   componentDidMount() {
     const { location } = this.props;
-    if (location.hash) {
-      var access_start = location.hash.indexOf('access_token=') + 13;
-      var access_end = location.hash.indexOf('&');
-      var access_token = location.hash.substring(access_start, access_end);
-      var refresh_start = location.hash.indexOf('refresh_token=') + 14;
-      var refresh_token = location.hash.substring(refresh_start);
-      this.props.dispatch(SetSpotifyAccessTokens(access_token, refresh_token));
-
+    axios
+    .get(`${window.server}/get_access_token`)
+    .then(function(response){
+      return new Promise(function(resolve, reject){
+        if (response.status === 200) {
+          resolve(response.data);
+        } else {
+          reject()
+        }
+      })
+    })
+    .then(function(access_token){
+      console.log('Logged In with: ',access_token);
+      this.props.dispatch(SetSpotifyAccessTokens(access_token, 'refresh_token'));
       new Promise ( function(resolve, reject) {
         spotifyApi.setAccessToken(access_token);
         resolve('done');
@@ -54,7 +61,36 @@ class App extends React.Component {
           }
         );
       }.bind(this));
-    }
+    }.bind(this))
+    .catch(function(error){
+      if (location.hash.indexOf('access_token')>-1) {
+        console.log(location.hash);
+        var access_start = location.hash.indexOf('access_token=') + 13;
+        var access_end = location.hash.indexOf('&');
+        var access_token = location.hash.substring(access_start, access_end);
+        var refresh_start = location.hash.indexOf('refresh_token=') + 14;
+        var refresh_token = location.hash.substring(refresh_start);
+        this.props.dispatch(SetSpotifyAccessTokens(access_token, refresh_token));
+
+        new Promise ( function(resolve, reject) {
+          spotifyApi.setAccessToken(access_token);
+          resolve('done');
+        }).then(function(response, err){
+          spotifyApi.getMyDevices()
+          .then(
+            function(data) {
+              if (data.devices) {
+                if (data.devices.length > 0) {
+                  this.props.dispatch(SetSpotifyPlayerId(data.devices[0].id));
+                }
+              }
+            }.bind(this),
+            err => { console.error(err)
+            }
+          );
+        }.bind(this));
+      }
+    })
   }
 
   render() {

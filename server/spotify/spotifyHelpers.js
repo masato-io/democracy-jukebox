@@ -130,3 +130,11 @@ exports.redirectAfterLogin = (req, res) => {
     }
   });
 };
+
+exports.GetAccessToken = (req,res) => {
+  if (credentials.access_token) {
+    res.send(credentials.access_token);
+  } else {
+    res.status(400).send('no access token');
+  }
+}
