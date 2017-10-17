@@ -120,7 +120,7 @@ const HostPlaylistEntry = props => {
         {obj.song_artist}
       </SongArtist>
       <Delete>
-        <a href='#' onClick={()=>{deleteSong(props.Song._id)}}>Delete</a>
+        <button type="button" onClick={()=>{deleteSong(props.Song._id)}}>Delete</button>
       </Delete>
       <UpVote onClick={handleUpVote} mini={true}>
         +{props.Song.upVoteCount}

@@ -81,7 +81,7 @@ class Navbar extends React.Component {
       backgroundColor: '#181C2F'
     };
 
-    if (location.hash.indexOf('happy_days')>-1){
+    if (location.hash.indexOf('happy_days')>-1 || location.hash.indexOf('access_token')>-1 || location.hash.indexOf('refresh_token')>-1){
       if (access_token) {
         var renderAdminDashboard = (
           <MenuItem onClick={this.handleClose}>

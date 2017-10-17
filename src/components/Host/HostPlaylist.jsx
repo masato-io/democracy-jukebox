@@ -108,7 +108,7 @@ class HostPlaylist extends React.Component {
     return (
       <PlaylistComponentWrap>
         <div>
-          <a href='#' onClick={this.clearPlaylist}>Clear Playlist</a>
+          <button type="button" onClick={this.clearPlaylist}>Clear Playlist</button>
         </div>
         <div style={playListStyle}>
           {this.props.songs &&
