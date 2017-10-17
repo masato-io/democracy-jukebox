@@ -14,6 +14,7 @@ const Song = require('../../db/song');
 // SearchSongResults        -     fetch song results // defaulted to 50 songs
 
 exports.AddSongToCollections = (req, res) => {
+  console.log(req.body);
   var newSong = new Song({
     name: req.body.name,
     image: req.body.image,
@@ -64,6 +65,7 @@ exports.FetchSongs = (req, res) => {
 };
 
 exports.RegisterVoteOnSong = (req, res) => {
+  console.log('RegisterVoteOnSong: ', req.body.name);
   Song.findOne({ name: req.body.name })
     .then(function(song) {
       if (song) {

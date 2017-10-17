@@ -23,6 +23,17 @@ const HostPlaylistEntry = props => {
     props.deleteSong()
   }
 
+  var obj = {
+    song_title: props.Song.name,
+    song_artist: props.Song.artist
+  }
+  if (props.Song.name.length > 14) {
+    obj.song_title = props.Song.name.slice(0, 14) + '...'
+  }
+  if (props.Song.artist.length > 14) {
+    obj.song_artist = props.Song.artist.slice(0, 14) + '...'
+  }
+
   const PlaylistItem = styled.div`
     width: 90%;
     background-color: #181C2F;
@@ -100,13 +111,13 @@ const HostPlaylistEntry = props => {
         <img style={imgFix} src={props.Song.image} alt="" />
       </SongImg>
       <SongName>
-        {props.Song.name}
+        {obj.song_title}
       </SongName>
       <AddedBy>
         {props.Song.username}
       </AddedBy>
       <SongArtist>
-        {props.Song.artist}
+        {obj.song_artist}
       </SongArtist>
       <Delete>
         <a href='#' onClick={()=>{deleteSong(props.Song._id)}}>Delete</a>

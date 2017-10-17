@@ -19,7 +19,8 @@ import styled from 'styled-components';
 @connect((store) => {
   return {
     access_token: store.AccountsReducer.access_token,
-    refresh_token: store.AccountsReducer.refresh_token
+    refresh_token: store.AccountsReducer.refresh_token,
+    currentSong: store.songsReducer.currentSong
   }
 })
 
@@ -40,7 +41,6 @@ class Playlist extends React.Component {
     const {access_token, refresh_token} = this.props;
     if (access_token && refresh_token) {
       this.getSpotifyToken();
-      this.getDeviceId();
     }
     this.props.dispatch(getSongs().bind(this));
   }
@@ -48,7 +48,7 @@ class Playlist extends React.Component {
   upVote(song) {
     song.vote = 1;
     axios
-      .put(`${window.server}/song`, song)
+      .put(`${window.server}/songvote`, song)
       .then(response => {
         this.props.dispatch(getSongs().bind(this));
       })
@@ -60,7 +60,7 @@ class Playlist extends React.Component {
   downVote(song) {
     song.vote = -1;
     axios
-      .put(`${window.server}/song`, song)
+      .put(`${window.server}/songvote`, song)
       .then(response => {
         this.props.dispatch(getSongs().bind(this));
       })
@@ -89,21 +89,6 @@ class Playlist extends React.Component {
     return access_token;
   }
 
-  //get the active device for the host user who is signed in to Spotify
-  getDeviceId() {
-    spotifyApi.getMyDevices().then(
-      data => {
-        if (data.devices) {
-          if (data.devices.length > 0) {
-            this.setState({ deviceId: data.devices[0].id });
-          }
-        }
-      },
-      err => {
-        console.error(err);
-      }
-    );
-  }
 
   playCurrentSong(deviceId, trackId) {
     spotifyApi.play({
@@ -125,6 +110,7 @@ class Playlist extends React.Component {
 
   render() {
     // baseStyles();
+    const {access_token, currentSong} = this.props;
 
     const playListStyle = {
       display: 'inline-block',
@@ -159,34 +145,51 @@ class Playlist extends React.Component {
       margin-right: auto;
       box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5);
     `;
+    if (currentSong){
+      var renderPlayer = (
+        <div>
+          <Player trackId={currentSong.link.substring(currentSong.link.lastIndexOf('/')+1)} />
+        </div>
+      )
+    }
+
+    if (access_token) {
+      var renderPlaylist = (
+        <PlaylistComponentWrap>
+          {/* PLAYLIST */}
+          <div style={playListStyle}>
+            {this.props.songs &&
+              this.props.songs.map((song, i) => {
+                return (
+                  <PlaylistEntry
+                    index={i + 1}
+                    downVote={this.downVote}
+                    handlePlay={this.handlePlayButtonClick}
+                    upVote={this.upVote}
+                    Song={song}
+                    key={i}
+                  />
+                );
+              })}
+          </div>
+
+          {/* PLAYER */}
+          <PlayerWrap>
+            {renderPlayer}
+          </PlayerWrap>
+        </PlaylistComponentWrap>
+      )
+    } else {
+      var renderPlaylist = (
+        <h4>Hey Fonz!  Go get Al or Arnold to Log In</h4>
+      )
+    }
 
     return (
-      <PlaylistComponentWrap>
-        {/* PLAYLIST */}
-        <div style={playListStyle}>
-          {this.props.songs &&
-            this.props.songs.map((song, i) => {
-              return (
-                <PlaylistEntry
-                  index={i + 1}
-                  downVote={this.downVote}
-                  handlePlay={this.handlePlayButtonClick}
-                  upVote={this.upVote}
-                  Song={song}
-                  key={i}
-                />
-              );
-            })}
-        </div>
-
-        {/* PLAYER */}
-        <PlayerWrap>
-          {this.state.currentSong && (
-            <Player trackId={this.state.currentSong.link.split('track/')[1]} />
-          )}
-        </PlayerWrap>
-      </PlaylistComponentWrap>
-    );
+      <div>
+      {renderPlaylist}
+      </div>
+    )
   }
 }
 

@@ -9,8 +9,5 @@ export function getSongs() {
         dispatch({ type: 'GET_ALL_SONGS', payload: result.data });
         return result.data[0];
       })
-      .then(currentSong => {
-        _this.setState({ currentSong: currentSong });
-      });
   };
 }
