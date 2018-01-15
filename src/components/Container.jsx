@@ -7,25 +7,24 @@ import Signup from './Accounts/Signup.jsx';
 import Login from './Accounts/Login.jsx';
 import Dashboard from './Host/Dashboard.jsx';
 
-
 class Container extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
 
-  render() {
-    return (
-      <MuiThemeProvider>
-        <Switch>
-          <Route exact path="/" component={Playlist} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/search" component={AddSong} />
-          <Route exact path="/host" component={Dashboard} />
-        </Switch>
-      </MuiThemeProvider>
-    );
-  }
+	render() {
+		return (
+			<MuiThemeProvider>
+				<Switch>
+					<Route exact path="/" component={Playlist} />
+					<Route exact path="/signup" component={Signup} />
+					<Route exact path="/login" component={Login} />
+					<Route exact path="/search" component={AddSong} />
+					<Route exact path="/host" component={Dashboard} />
+				</Switch>
+			</MuiThemeProvider>
+		);
+	}
 }
 export default Container;

@@ -7,21 +7,13 @@ const path = require('path');
 app.use(cors());
 const env = require('./env/credentials.js');
 
-// *** Static Assets ***
-app.use(express.static(path.join(__dirname, '../')));
-
-// serve html
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname + '/index.html'));
-});
-
 // Blocked Loading HTTP Mixed Content on Heroku
 app.use(function(req, res, next) {
-  if (req.headers['x-forwarded-proto'] === 'https') {
-    res.redirect('http://' + req.hostname + req.url);
-  } else {
-    next();
-  }
+	if (req.headers['x-forwarded-proto'] === 'https') {
+		res.redirect('http://' + req.hostname + req.url);
+	} else {
+		next();
+	}
 });
 
 // *** Parser ***
@@ -39,7 +31,6 @@ var spotifyHelpers = require('./spotify/spotifyHelpers.js');
 
 app.use('/', express.static(__dirname));
 
-
 app.get('/songs', playlist.FetchSongs);
 app.post('/songs', playlist.AddSongToCollections);
 
@@ -55,16 +46,24 @@ app.get('/users', users.FetchAllUsers);
 app.post('/signup', users.NewUserSignUp);
 
 // Host Authentication
-app.get('/get_access_token', spotifyHelpers.GetAccessToken)
+app.get('/get_access_token', spotifyHelpers.GetAccessToken);
 app.get('/hostLogin', (req, res) => {
-  spotifyHelpers.handleHostLogin(req, res);
+	spotifyHelpers.handleHostLogin(req, res);
 });
 
 app.get('/callback', (req, res) => {
-  spotifyHelpers.redirectAfterLogin(req, res);
+	spotifyHelpers.redirectAfterLogin(req, res);
+});
+
+// *** Static Assets ***
+app.use(express.static(path.join(__dirname, './../')));
+
+// serve html
+app.get('/*', (req, res) => {
+	res.sendFile(path.join(__dirname + './../index.html'));
 });
 
 // *** Server ***
 app.listen(process.env.PORT || 3000, function() {
-  console.log('Listening at http://localhost:3000');
+	console.log('Listening at http://localhost:3000');
 });
