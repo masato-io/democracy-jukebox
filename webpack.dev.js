@@ -5,9 +5,10 @@ const path = require('path');
 console.log(__dirname);
 
 module.exports = merge(common, {
-  watch: true,
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './'
-  }
+	watch: true,
+	devtool: 'inline-source-map',
+	devServer: {
+		contentBase: './',
+		historyApiFallback: true
+	}
 });
