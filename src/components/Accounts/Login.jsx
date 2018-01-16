@@ -8,9 +8,9 @@ const Login = props => {
 	};
 
 	const menuItems = users => {
-		return users.map(user => (
-			<MenuItem key={user._id} value={user} primaryText={user.name} />
-		));
+		// return users.map(user => (
+		// 	<MenuItem key={user._id} value={user} primaryText={user.name} />
+		// ));
 	};
 
 	return (

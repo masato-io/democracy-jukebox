@@ -29,8 +29,6 @@ var users = require('./accounts/user');
 var playlist = require('./spotify/playlist');
 var spotifyHelpers = require('./spotify/spotifyHelpers.js');
 
-app.use('/', express.static(__dirname));
-
 app.get('/songs', playlist.FetchSongs);
 app.post('/songs', playlist.AddSongToCollections);
 
@@ -59,7 +57,7 @@ app.get('/callback', (req, res) => {
 app.use(express.static(path.join(__dirname, './../')));
 
 // serve html
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname + './../index.html'));
 });
 
